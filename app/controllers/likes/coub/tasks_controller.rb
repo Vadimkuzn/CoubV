@@ -30,7 +30,7 @@ class Likes::Coub::TasksController < ApplicationController
    @coub_task[:picture_path] = "fff"
 
    if @coub_task.save
-    redirect_to [:likes, :coub, @coub_task]
+    redirect_to [:likes, @coub_task]
    else
     render 'new'
    end
@@ -82,7 +82,7 @@ t.datetime  "updated_at",
   def update
    @coub_task = CoubTask.find(params[:id])
    if @coub_task.update(task_params)
-    redirect_to [:likes, :coub, @coub_task]
+    redirect_to [:likes, @coub_task]
    else
     render 'edit'
    end
@@ -91,7 +91,7 @@ t.datetime  "updated_at",
   def destroy
    @coub_task = CoubTask.find(params[:id])
    @coub_task.destroy
-   redirect_to likes_coub_coub_tasks_path
+   redirect_to likes_coub_tasks_path
   end
 
 private

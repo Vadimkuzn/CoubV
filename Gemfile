@@ -21,6 +21,7 @@ group :development, :test do
   gem 'rspec-rails', '2.13.1'
 end
 
+gem 'slim-rails'
 
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
