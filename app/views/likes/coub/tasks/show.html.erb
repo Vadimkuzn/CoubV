@@ -1,0 +1,25 @@
+<p>
+  <strong>Название:</strong>
+  <%= @coub_task.title %>
+</p>
+<p>
+  <strong>Адрес ссылки, где накрутить лайки:</strong>
+  <%= @coub_task.url %>
+</p>
+<p>
+  <strong>Сколько лайков накрутить:</strong>
+  <%= @coub_task.members_count %>
+</p>
+<p>
+  <strong>Вознаграждение за лайк:</strong>
+  <%= @coub_task.cost %>
+</p>
+<p>
+  <strong>Лайков будет списано:</strong>
+  <%= @coub_task.max_count %>
+</p>
+
+<p>
+
+<%= link_to 'Редактировать', edit_likes_coub_task_path(@coub_task) %>
+<%= link_to 'Назад', likes_coub_tasks_path %>
