@@ -2,7 +2,7 @@ Rails.application.routes.draw do
     namespace :likes do
     namespace :coub do
       get 'main/index'
-      resources :coub_tasks
+      resources :tasks
     end
   end
 
