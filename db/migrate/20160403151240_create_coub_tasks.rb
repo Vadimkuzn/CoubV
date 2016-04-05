@@ -19,7 +19,6 @@ class CreateCoubTasks < ActiveRecord::Migration
      t.boolean   "finished",      default: false, null: false  # задание завершено(выполнено) или нет
      t.datetime  "created_at",    null:    false
      t.datetime  "updated_at",    null:    false
-     t.timestamps null: false
 
      t.timestamps null: false
     end

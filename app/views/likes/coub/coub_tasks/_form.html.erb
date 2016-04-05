@@ -1,5 +1,4 @@
-<%= form_for @coub_task do |f| %>
-
+<%= form_for [:likes, :coub, @coub_task] do |f| %>
  <% if @coub_task.errors.any? %>
    <div id="error_explanation">
      <h2>

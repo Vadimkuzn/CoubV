@@ -1,23 +1,8 @@
 Rails.application.routes.draw do
-  namespace :likes do
-  namespace :coub do
-    get 'coub_tasks/index'
-    get 'coub_tasks/show'
-    get 'coub_tasks/new'
-    get 'coub_tasks/edit'
-    get 'coub_tasks/create'
-    get 'coub_tasks/update'
-    get 'coub_tasks/destroy'
-    resources :coub_tasks
-    end
-  end
-
-  resources :coub_tasks, module: 'likes/coub'
-  resources :coub_tasks, path: '/likes/coub/coub_tasks'
-
-  namespace :likes do
-  namespace :coub do
-    get 'main/index'
+    namespace :likes do
+    namespace :coub do
+      get 'main/index'
+      resources :coub_tasks
     end
   end
 

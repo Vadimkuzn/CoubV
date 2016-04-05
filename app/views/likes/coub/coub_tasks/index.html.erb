@@ -11,13 +11,13 @@
     <tr>
       <td><%= task.title %></td>
       <td><%= task.created_at %></td>
-      <td><%= link_to 'Показать', coub_task_path(task) %></td>
-      <td><%= link_to 'Редактировать', edit_coub_task_path(task) %></td>
-      <td><%= link_to 'Удалить', coub_task_path(task),  method: :delete, data: { confirm: 'Вы уверены?' } %></td>
+      <td><%= link_to 'Показать', likes_coub_coub_task_path(task) %></td>
+      <td><%= link_to 'Редактировать', edit_likes_coub_coub_task_path(task) %></td>
+      <td><%= link_to 'Удалить', likes_coub_coub_task_path(task),  method: :delete, data: { confirm: 'Вы уверены?' } %></td>
     </tr>
   <% end %>
 </table>
 
 <p>
 
-<%= link_to 'Новое задание', new_coub_task_path %>
+<%= link_to 'Новое задание', new_likes_coub_coub_task_path %>

@@ -19,7 +19,7 @@ class Likes::Coub::CoubTasksController < ApplicationController
 #render plain: params[:coub_task].inspect
    @coub_task = CoubTask.new(task_params)
 #   @coub_task[:id] = 33                 #Unique!!!
-   @coub_task[:id] = rand(2^31).to_s     #temporary
+#   @coub_task[:id] = rand(2^31).to_s     #temporary
    @coub_task[:user_id] = 4              #temporary
    @coub_task[:created_at] = Time.now    #temporary
    @coub_task[:updated_at] = Time.now    #temporary
@@ -30,7 +30,7 @@ class Likes::Coub::CoubTasksController < ApplicationController
    @coub_task[:picture_path] = "fff"
 
    if @coub_task.save
-    redirect_to @coub_task
+    redirect_to [:likes, :coub, @coub_task]
    else
     render 'new'
    end
@@ -82,7 +82,7 @@ t.datetime  "updated_at",
   def update
    @coub_task = CoubTask.find(params[:id])
    if @coub_task.update(task_params)
-    redirect_to @coub_task
+    redirect_to [:likes, :coub, @coub_task]
    else
     render 'edit'
    end
@@ -91,7 +91,7 @@ t.datetime  "updated_at",
   def destroy
    @coub_task = CoubTask.find(params[:id])
    @coub_task.destroy
-   redirect_to coub_tasks_path
+   redirect_to likes_coub_coub_tasks_path
   end
 
 private
