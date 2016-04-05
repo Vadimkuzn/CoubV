@@ -19,12 +19,12 @@ class Likes::Coub::CoubTasksController < ApplicationController
 #render plain: params[:coub_task].inspect
    @coub_task = CoubTask.new(task_params)
 #   @coub_task[:id] = 33                 #Unique!!!
-   @coub_task[:id] = rand(2^31).to_s
-   @coub_task[:user_id] = 4
-   @coub_task[:created_at] = Time.now
-   @coub_task[:updated_at] = Time.now
+   @coub_task[:id] = rand(2^31).to_s     #temporary
+   @coub_task[:user_id] = 4              #temporary
+   @coub_task[:created_at] = Time.now    #temporary
+   @coub_task[:updated_at] = Time.now    #temporary
    @coub_task[:ctype] = :CbLikeTask
-   @coub_task[:item_id] = 55
+   @coub_task[:item_id] = 55             #temporary
    @coub_task[:shortcode] = "bfrkm"
    @coub_task[:current_count] = 8
    @coub_task[:picture_path] = "fff"
