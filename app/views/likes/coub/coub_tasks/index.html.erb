@@ -1,0 +1,20 @@
+<h1>Список заданий</h1>
+
+<table>
+  <tr>
+    <th>Название</th>
+  </tr>
+
+  <% @coub_tasks.each do |task| %>
+    <tr>
+      <td><%= task.title %></td>
+      <td><%= link_to 'Показать', coub_task_path(task) %></td>
+      <td><%= link_to 'Редактировать', edit_coub_task_path(task) %></td>
+      <td><%= link_to 'Удалить', coub_task_path(task),  method: :delete, data: { confirm: 'Вы уверены?' } %></td>
+    </tr>
+  <% end %>
+</table>
+
+<p>
+
+<%= link_to 'Новое задание', new_coub_task_path %>
