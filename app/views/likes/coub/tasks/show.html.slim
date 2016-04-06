@@ -1,0 +1,19 @@
+p
+  strong Название:
+  = @coub_task.title
+p
+  strong Адрес ссылки, где накрутить лайки:
+  = @coub_task.url
+p
+  strong Сколько лайков накрутить:
+  = @coub_task.members_count
+p
+  strong Вознаграждение за лайк:
+  = @coub_task.cost
+p
+  strong Лайков будет списано:
+  = @coub_task.max_count
+p
+tr
+  td = link_to 'Редактировать', edit_likes_coub_task_path(@coub_task)
+  td = link_to 'Назад', likes_coub_tasks_path

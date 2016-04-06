@@ -1,0 +1,22 @@
+= form_for [:likes, @coub_task] do |f|
+  - if @coub_task.errors.any?
+    h2 #{pluralize(@coub_task.errors.count, "error")} - не удаётся сохранить задание:
+    ul
+      - @coub_task.errors.full_messages.each do |msg|
+        li = msg
+  p
+    | Название (обязательно):&nbsp;
+    = f.text_field :title
+  p
+    | Адрес ссылки, где накрутить лайки (обязательно):&nbsp;
+    = f.text_field :url
+  p
+    | Сколько лайков накрутить (обязательно - минимум 10):&nbsp;
+    = f.text_field :members_count
+  p
+    | Вознаграждение за лайк (обязательно - минимум 1):&nbsp;
+    = f.text_field :cost
+  p
+    | Лайков будет списано:&nbsp;
+    = f.text_field :max_count
+  = f.submit value = "Сохранить задание"
