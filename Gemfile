@@ -21,6 +21,8 @@ group :development, :test do
   gem 'rspec-rails', '2.13.1'
 end
 
+gem 'anjlab-bootstrap-rails', :require => 'bootstrap-rails', :github => 'anjlab/bootstrap-rails'
+
 gem 'slim-rails'
 
 # Use SCSS for stylesheets
