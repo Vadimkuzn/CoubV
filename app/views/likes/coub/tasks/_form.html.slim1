@@ -29,4 +29,6 @@
       = f.text_field :max_count, :maxlength => "4", :disabled => true, :class => 'form-control'
 
   .actions
+    - if !:url.to_s.is_valid_url?
+      - javascript_tag "alert('FAILED!')"
     = f.submit "Отправить задание", :class => 'btn btn-info'

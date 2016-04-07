@@ -1,13 +1,14 @@
 = form_for([:likes, @coub_task]) do |f|
   .form-group
-    = f.label :title, "Название:",:class => 'col-lg-4 control-label'
+    = f.label :title, "Название",:class => 'col-lg-4 control-label'
     .col-lg-6
       = f.text_field :title, :class => 'form-control'
 
   .form-group
-    = f.label :url, "Url:", :class => 'col-lg-4 control-label'
+    = f.label :url, :class => 'col-lg-4 control-label'
     .col-lg-6
       - locurl = f.text_field :url
+      - if !locurl.is_valid_url? abort "wrong URL: #{locurl}!"
       = f.text_field :url, :disabled => !@coub_task.new_record?, :class => 'form-control', :required => true
       Ссылка вида https://coub.com/view/b9t15
 

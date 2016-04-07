@@ -8,6 +8,8 @@
     = f.label :url, "Url:", :class => 'col-lg-4 control-label'
     .col-lg-6
       - locurl = f.text_field :url
+      - if !:url.to_s.is_valid_url?
+        - javascript_tag "alert('FAILED!')"
       = f.text_field :url, :disabled => !@coub_task.new_record?, :class => 'form-control', :required => true
       Ссылка вида https://coub.com/view/b9t15
 
