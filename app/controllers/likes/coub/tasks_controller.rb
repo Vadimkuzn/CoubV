@@ -19,24 +19,32 @@ class Likes::Coub::TasksController < ApplicationController
 
   def create
 #render plain: params[:coub_task].inspect
-   @coub_task = CoubTask.new(task_params)
-#   uri = @coub_task[:url]
-#   if !:uri.to_s.is_valid_url?
-#    msgBox = Tk.messageBox(
-#     'type'    => "ok",
-#     'icon'    => "info",
-#     'title'   => "Ошибка",
-#     'message' => "Неправильный адрес URL!"
-#    )
-#    render plain: params[:coub_task].inspect
-#   end
+#   @coub_task = CoubTask.new(task_params)
+   @coub_task = current_user.coub_tasks.build(task_params)
+   @coub_task[:ctype] = :CbLikeTask
+   @coub_task[:shortcode] = CoubUrlParser.new(@coub_task[:url]).get_shortcode
+   @coub_task[:item_id] = 55             #temporary !!!
+   @coub_task[:current_count] = 8        #temporary !!!
+   @coub_task[:picture_path] = "fff"     #temporary
+   @coub_task[:max_count] = 20           #temporary !!!
+
+   if @coub_task.save
+    redirect_to [:likes, @coub_task]
+#    render plain: @coub_task.inspect
+   else
+    render 'new'
+   end
+
+#render plain: @coub_task.inspect
+
+=begin
+#   @coub_task = CoubTask.new(task_params)
    @coub_task[:user_id] = 4              #temporary
    @coub_task[:ctype] = :CbLikeTask
    @coub_task[:item_id] = 55             #temporary
    @coub_task[:shortcode] = "bfrkm"
    @coub_task[:current_count] = 8
    @coub_task[:picture_path] = "fff"     #temporary
-
    @coub_task[:max_count] = 20
 
    if @coub_task.save
@@ -44,6 +52,8 @@ class Likes::Coub::TasksController < ApplicationController
    else
     render 'new'
    end
+=end
+
   end
 
 #render plain: @task.inspect

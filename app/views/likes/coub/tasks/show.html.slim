@@ -1,19 +1,35 @@
-p
-  strong Название:&nbsp;
-  = @coub_task.title
-p
-  strong Адрес ссылки, где накрутить лайки:&nbsp;
-  = @coub_task.url
-p
-  strong Сколько лайков накрутить:&nbsp;
-  = @coub_task.members_count
-p
-  strong Вознаграждение за лайк:&nbsp;
-  = @coub_task.cost
-p
-  strong Лайков будет списано:&nbsp;
-  = @coub_task.max_count
-p
-tr
-  td = link_to 'Редактировать', edit_likes_coub_task_path(@coub_task)
-  td = link_to 'Назад', likes_coub_tasks_path
+h3
+  center
+    table border = "1"
+      tr
+        td
+          strong Название
+        td
+          = @coub_task.title
+      tr
+        td
+          strong Адрес ссылки, где накрутить лайки
+        td
+          = link_to @coub_task.url
+      tr
+        td
+          strong Сколько лайков накрутить
+        td
+          = @coub_task.members_count
+      tr
+        td
+          strong Вознаграждение за лайк
+        td
+          = @coub_task.cost
+      tr
+        td
+          strong Лайков будет списано
+        td
+          = @coub_task.max_count
+h3
+  center
+    table
+      tr
+        td = link_to 'Редактировать', edit_likes_coub_task_path(@coub_task)
+        td &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        td = link_to 'Назад', likes_coub_tasks_path

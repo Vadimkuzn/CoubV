@@ -1,9 +1,17 @@
 Rails.application.routes.draw do
-    namespace :likes do
-    namespace :coub do
-      get 'main/index'
-      resources :tasks
-    end
+  get 'sessions/create'
+  get 'sessions/destroy'
+
+  get "/auth/:provider/callback" => "sessions#create"
+  delete "logout" => "sessions#destroy"
+
+  get '/likes/coub/tasks' => 'likes/coub/tasks#index', as: 'tasklist'
+
+  namespace :likes do
+   namespace :coub do
+    get 'main/index'
+     resources :tasks
+   end
   end
 
   root 'likes/coub/main#index'
