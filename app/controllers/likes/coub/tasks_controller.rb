@@ -25,11 +25,11 @@ class Likes::Coub::TasksController < ApplicationController
 #   @coub_task = CoubTask.new(task_params)
    @coub_task = current_user.coub_tasks.build(task_params)
    @coub_task[:ctype] = :CbLikeTask
-   @coub_task[:shortcode] = CoubUrlParser.new(@coub_task[:url]).get_shortcode
+#   @coub_task[:shortcode] = CoubUrlParser.new(@coub_task[:url]).get_shortcode
 #   @coub_task[:max_count] = @coub_task[:members_count] * @coub_task[:cost]      #???
 
    @coub_task[:item_id] = 55             #temporary !!!
-   @coub_task[:current_count] = 8        #temporary !!!
+#   @coub_task[:current_count] = 8        #temporary !!!
    @coub_task[:picture_path] = "fff"     #temporary
 
    if @coub_task.save
