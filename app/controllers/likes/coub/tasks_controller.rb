@@ -3,7 +3,9 @@ require 'tk'
 class Likes::Coub::TasksController < ApplicationController
   def index
 #   @coub_tasks = CoubTask.all
-   @coub_tasks = current_user.coub_tasks
+   if current_user
+    @coub_tasks = current_user.coub_tasks
+   end
   end
 
   def show
@@ -16,8 +18,6 @@ class Likes::Coub::TasksController < ApplicationController
 
   def edit
    @coub_task = CoubTask.find(params[:id])
-   @coub_task[:max_count] = @coub_task[:members_count] * @coub_task[:cost]
-   @coub_task.save
   end
 
   def create
@@ -26,7 +26,7 @@ class Likes::Coub::TasksController < ApplicationController
    @coub_task = current_user.coub_tasks.build(task_params)
    @coub_task[:ctype] = :CbLikeTask
    @coub_task[:shortcode] = CoubUrlParser.new(@coub_task[:url]).get_shortcode
-   @coub_task[:max_count] = @coub_task[:members_count] * @coub_task[:cost]      #???
+#   @coub_task[:max_count] = @coub_task[:members_count] * @coub_task[:cost]      #???
 
    @coub_task[:item_id] = 55             #temporary !!!
    @coub_task[:current_count] = 8        #temporary !!!
