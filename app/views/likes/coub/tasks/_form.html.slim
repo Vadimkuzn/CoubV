@@ -30,3 +30,12 @@
 
   .actions
     = f.submit "Отправить задание", :class => 'btn btn-info'
+
+javascript:
+  function recountMaxCount() {
+    $('#coub_task_max_count').val($('#coub_task_members_count').val() * $('#coub_task_cost').val());
+  }
+
+  $('#coub_task_members_count').change(recountMaxCount);
+  $('#coub_task_cost').change(recountMaxCount);
+  highlightErrors();
