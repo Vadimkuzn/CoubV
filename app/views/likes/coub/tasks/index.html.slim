@@ -22,6 +22,9 @@
     = link_to 'Новое задание', new_likes_coub_task_path
     br/
     br/
+    = link_to 'Удалить все задания', delete_all_likes_coub_tasks_path, method: :delete, data: { confirm: "Вы уверены?" }
+    br/
+    br/
     = link_to "Выход из Coub и переход на главную страницу Coub Likes", logout_path, method: :delete
 - else
   p

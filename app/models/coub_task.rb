@@ -4,6 +4,10 @@ class CoubTask < ActiveRecord::Base
  before_validation :set_max_count
  before_validation :set_shortcode
 
+ def self.default_scope
+  where deleted: false
+ end
+
  def set_max_count
   self.max_count = self.cost.to_i * self.members_count.to_i
   self.current_count = self.max_count

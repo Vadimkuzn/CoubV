@@ -10,11 +10,16 @@ Rails.application.routes.draw do
   namespace :likes do
    namespace :coub do
     get 'main/index'
-     resources :tasks
+     resources :tasks do
+      collection do
+       delete 'delete_all'
+      end
+     end
    end
   end
 
   root 'likes/coub/main#index'
+
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
