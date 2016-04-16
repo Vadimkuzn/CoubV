@@ -41,6 +41,7 @@ gem "omniauth-coub"
 
 gem "faraday"
 
+gem 'russian', '~> 0.6.0'
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'

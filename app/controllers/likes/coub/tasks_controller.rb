@@ -33,8 +33,8 @@ class Likes::Coub::TasksController < ApplicationController
    @coub_task[:picture_path] = "fff"     #temporary
 
    if @coub_task.save
-    redirect_to [:likes, @coub_task]
-#    render plain: @coub_task.inspect
+#    redirect_to [:likes, @coub_task]
+    render plain: @coub_task.inspect
    else
     render 'new'
    end

@@ -31,6 +31,16 @@
   .actions
     = f.submit "Отправить задание", :class => 'btn btn-info'
 
+- if @coub_task.errors.any?
+  h2
+    = @coub_task.errors.count
+    | &nbsp;
+    = Russian.p(@coub_task.errors.count, "ошибка помешала", "ошибки помешали", "ошибок помешали")
+    | &nbsp;создать это задание:
+  ul
+    - @coub_task.errors.full_messages.each do |msg|
+      li= msg
+
 javascript:
   function recountMaxCount() {
     $('#coub_task_max_count').val($('#coub_task_members_count').val() * $('#coub_task_cost').val());

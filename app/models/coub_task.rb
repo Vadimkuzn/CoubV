@@ -1,10 +1,8 @@
 class CoubTask < ActiveRecord::Base
  belongs_to :user
- before_validation :set_max_count, on: :create
- after_validation  :set_max_count, on: :update
 
- after_validation  :set_shortcode, on: :create
- after_validation  :set_shortcode, on: :update
+ before_validation :set_max_count
+ before_validation :set_shortcode
 
  def set_max_count
   self.max_count = self.cost.to_i * self.members_count.to_i
@@ -20,4 +18,7 @@ class CoubTask < ActiveRecord::Base
  validates :cost,  presence: true, numericality: { greater_than_or_equal_to: 1,  less_than_or_equal_to: 15}
  URL_FORMAT = /https?:\/\/coub.com\/view\/(\w+)/i
  validates_format_of :url, :with => URL_FORMAT
+ validates :current_count,  presence: true
+ validates :max_count,  presence: true, numericality: { greater_than_or_equal_to: 1 }
+ validates :shortcode, presence: true
 end
