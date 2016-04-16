@@ -15,6 +15,7 @@ class CoubTask < ActiveRecord::Base
 
  def set_shortcode
   self.shortcode = CoubUrlParser.new(self.url).get_shortcode
+  self.item_id = self.shortcode
  end
 
  validates :title, presence: true, length: { maximum: 255 }

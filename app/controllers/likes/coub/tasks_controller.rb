@@ -20,7 +20,6 @@ class Likes::Coub::TasksController < ApplicationController
   def create
    @coub_task = current_user.coub_tasks.build(task_params)
    @coub_task[:ctype] = :CbLikeTask
-   @coub_task[:item_id] = 55             #temporary !!!
    @coub_task[:picture_path] = "fff"     #temporary
    if @coub_task.save
     redirect_to [:likes, @coub_task]
