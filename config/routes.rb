@@ -10,11 +10,12 @@ Rails.application.routes.draw do
   namespace :likes do
    namespace :coub do
     get 'main/index'
-     resources :tasks do
-      collection do
-       delete 'delete_all'
-      end
+    resources :tasks do
+     post 'pause'
+     collection do
+      delete 'delete_all'
      end
+    end
    end
   end
 

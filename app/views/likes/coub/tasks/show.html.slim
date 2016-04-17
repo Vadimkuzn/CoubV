@@ -26,6 +26,22 @@ h3
           strong Лайков будет списано
         td
           = @coub_task.max_count
+      tr
+        td
+          strong Приостановлено?
+        td
+          - if @coub_task.paused
+            |  Да
+          - else
+            |  Нет
+      tr
+        td
+          strong Выполнено?
+        td
+          - if @coub_task.finished
+            |  Да
+          - else
+            |  Нет
 h3
   center
     table
