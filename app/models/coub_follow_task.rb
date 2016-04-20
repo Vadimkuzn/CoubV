@@ -1,0 +1,2 @@
+class CoubFollowTask < CoubTask
+end

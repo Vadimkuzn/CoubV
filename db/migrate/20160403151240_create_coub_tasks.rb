@@ -3,7 +3,7 @@ class CreateCoubTasks < ActiveRecord::Migration
     create_table :coub_tasks do |t|
      t.integer   "user_id",       null:    false               # кто поставил задание. на данном этапе забей на это поле
      t.string    "title",         limit:   255                 # название задания, необязательное, больше для юзера
-     t.string    "ctype",         limit:   255, null: false    # тип задания(сейчас это будет только 1 тип: CbLikeTask - накрутка лайков к записи)
+     t.string    "type",          limit:   255, null: false    # тип задания(сейчас это будет только 1 тип: CbLikeTask - накрутка лайков к записи)
      t.string    "url",           limit:   255, null: false    # адрес, куда будут накручиваться лайки. например: https://coub.com/view/bfrkm
      t.integer   "cost",          null:    false               # стоимость в баллах за одно выполнение задания.
      t.string    "item_id",       limit:   255, null: false    # внутренний идентификатор записи на сайте coub. их внутренний id
