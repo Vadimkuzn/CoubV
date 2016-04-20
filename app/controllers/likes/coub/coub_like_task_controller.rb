@@ -1,2 +1,2 @@
-class Likes::Coub::CoubLikeTaskController < Likes::Coub::TasksController
+class Likes::Coub::CoubLikeTaskController < ApplicationController
 end
