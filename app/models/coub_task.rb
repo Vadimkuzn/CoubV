@@ -19,7 +19,7 @@ class CoubTask < ActiveRecord::Base
  end
 
  validates :title, presence: true, length: { maximum: 255 }
- validates :title, uniqueness: { case_sensitive: false }
+# validates :title, uniqueness: { case_sensitive: false }
  validates :members_count,  presence: true, numericality: { greater_than_or_equal_to: 10 }
  validates :cost,  presence: true, numericality: { greater_than_or_equal_to: 1,  less_than_or_equal_to: 15}
  URL_FORMAT = /https?:\/\/coub.com\/view\/(\w+)/i
