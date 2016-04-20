@@ -26,7 +26,7 @@ ActiveRecord::Schema.define(version: 20160420093444) do
   create_table "coub_tasks", force: :cascade do |t|
     t.integer  "user_id",                                   null: false
     t.string   "title",         limit: 255
-    t.string   "ctype",         limit: 255,                 null: false
+    t.string   "type",         limit: 255,                 null: false
     t.string   "url",           limit: 255,                 null: false
     t.integer  "cost",                                      null: false
     t.string   "item_id",       limit: 255,                 null: false

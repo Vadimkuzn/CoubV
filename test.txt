@@ -1,3 +1,0 @@
-rails generate controller likes\coub\CoubLikeTask
-
-rails generate model CoubLikeTask
