@@ -24,7 +24,14 @@
   h2
     = link_to 'Новое задание на накрутку лайков', new_likes_coub_like_path
     br/
+    br/
     = link_to 'Новое задание на накрутку подписчиков', new_likes_coub_follow_path
+    br/
+    br/
+    = link_to 'Выполнять задания на лайки', likes_coub_likes_path
+    br/
+    br/
+    = link_to 'Выполнять задания на подписки', likes_coub_follows_path
     br/
     = link_to 'Удалить все задания', delete_all_likes_coub_tasks_path, method: :delete, data: { confirm: "Вы уверены?" }
     br/

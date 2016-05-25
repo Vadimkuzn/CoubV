@@ -1,4 +1,7 @@
 class Likes::Coub::FollowsController < ApplicationController
+  def index
+    # список заданий для выполнения на подписки
+  end
   def new
     @coub_follow_task = CoubFollowTask.new
   end
