@@ -1,3 +1,5 @@
+require 'my_coub_lib'
+
 class Likes::Coub::TasksController < ApplicationController
 #--------------------------------------------------------------------------
   def index
@@ -20,9 +22,19 @@ class Likes::Coub::TasksController < ApplicationController
 #--------------------------------------------------------------------------
   def create
    @coub_task = current_user.coub_tasks.build(task_params)
-   @coub_task[:type] = :CbLikeTask
+   coub_like_task = current_user.coub_like_tasks.build(task_params)
+
+#render plain: params[:coub_task].inspect
+#render plain: @coub_task.inspect
+   @coub_task[:type] = coub_like_task[:type]     #temporary
    @coub_task[:picture_path] = "fff"     #temporary
+
    if @coub_task.save
+#render plain: @coub_task.inspect
+#    result = MyCoubLib.new.does_like?(current_user)
+#    render plain: result.inspect
+
+# does_like?(item_id, access_token)
     redirect_to [:likes, @coub_task]
    else
     render 'new'

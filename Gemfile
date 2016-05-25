@@ -12,6 +12,7 @@ gem 'coffee-script-source', '1.8.0'
 gem 'rails', '4.2.5'
 
 gem 'bootstrap-sass', '2.3.2.0'
+gem 'anjlab-bootstrap-rails', :require => 'bootstrap-rails', :github => 'anjlab/bootstrap-rails'
 
 # Use sqlite3 as the database for Active Record
 gem 'sqlite3'
@@ -20,8 +21,6 @@ group :development, :test do
 #  gem 'sqlite3'
   gem 'rspec-rails', '2.13.1'
 end
-
-gem 'anjlab-bootstrap-rails', :require => 'bootstrap-rails', :github => 'anjlab/bootstrap-rails'
 
 gem 'slim-rails'
 

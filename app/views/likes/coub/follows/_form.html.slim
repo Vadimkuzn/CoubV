@@ -1,0 +1,51 @@
+= form_for(@coub_follow_task, url: likes_coub_follows_path) do |f|
+  .form-group
+    = f.label :title, "Название:",:class => 'col-lg-4 control-label'
+    .col-lg-6
+      = f.text_field :title, :class => 'form-control'
+
+  .form-group
+    = f.label :url, "Url:", :class => 'col-lg-4 control-label'
+    .col-lg-6
+      - locurl = f.text_field :url
+      = f.text_field :url, :disabled => !@coub_follow_task.new_record?, :class => 'form-control', :required => true
+      | &nbsp; Ссылка вида https://coub.com/someone
+
+  .form-group
+    = f.label :members_count, "Сколько лайков накрутить:", :class => 'col-lg-4 control-label'
+    .col-lg-6
+      = f.number_field :members_count, :maxlength => "6", :class => 'form-control', :required => true
+      | &nbsp; Минимум 10
+
+  .form-group
+    = f.label :cost, "Вознаграждение за лайк:", :class => 'col-lg-4 control-label'
+    .col-lg-6
+      = f.number_field :cost, :maxlength => "2", :min => 1, :max => 15, :class => 'form-control', :required => true
+      | &nbsp; Минимум 1, Максимум 15
+
+  .form-group
+    = f.label :max_count, "Лайков будет списано:", :class => 'col-lg-4 control-label'
+    .col-lg-6
+      = f.text_field :max_count, :maxlength => "4", :disabled => true, :class => 'form-control'
+
+  .actions
+    = f.submit "Отправить задание", :class => 'btn btn-info'
+
+- if @coub_follow_task.errors.any?
+  h2
+    = @coub_follow_task.errors.count
+    | &nbsp;
+    = Russian.p(@coub_follow_task.errors.count, "ошибка помешала", "ошибки помешали", "ошибок помешали")
+    | &nbsp;создать это задание:
+  ul
+    - @coub_follow_task.errors.full_messages.each do |msg|
+      li= msg
+
+javascript:
+  function recountMaxCount() {
+    $('#coub_follow_task_max_count').val($('#coub_follow_task_members_count').val() * $('#coub_follow_task_cost').val());
+  }
+
+  $('#coub_follow_task_members_count').change(recountMaxCount);
+  $('#coub_follow_task_cost').change(recountMaxCount);
+  highlightErrors();

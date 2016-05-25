@@ -1,5 +1,7 @@
 class User < ActiveRecord::Base
   has_many :coub_tasks
+  has_many :coub_like_tasks
+  has_many :coub_follow_tasks
 
   def self.from_omniauth(auth)
     where(provider: auth.provider, uid: auth.uid).first_or_initialize.tap do |user|

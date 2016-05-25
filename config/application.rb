@@ -24,5 +24,6 @@ module Coubv
     config.active_record.raise_in_transactional_callbacks = true
     config.assets.precompile += %w(*.png *.jpg *.jpeg *.gif)
     config.autoload_paths += Dir[Rails.root.join('app', 'services', '{**}')]
+    config.autoload_paths << Rails.root.join('lib')
   end
 end
