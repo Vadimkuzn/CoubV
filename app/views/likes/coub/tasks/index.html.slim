@@ -1,17 +1,20 @@
 - if current_user
-  h1 Список заданий
+  h1 Список своих заданий
   center
     table border = "1"
       tr
         h2
-          th &nbsp;&nbsp;Тип&nbsp;&nbsp;
           th &nbsp;&nbsp;Название&nbsp;&nbsp;
+          th &nbsp;&nbsp;Тип&nbsp;&nbsp;
           th &nbsp;&nbsp;Создано&nbsp;&nbsp;
         h4
         - @coub_tasks.each do |task|
           tr
-            td = task.type
             td = task.title
+            - if task.type == "CoubLikeTask"
+              td = "Лайк"
+            - else
+              td = "Подписка"
             td = task.created_at.strftime("%Y-%m-%d %H:%M")
             td = link_to " Показать ", likes_coub_task_path(task)
             td = link_to ' Редактировать ', edit_likes_coub_task_path(task)
@@ -28,12 +31,13 @@
     = link_to 'Новое задание на накрутку подписчиков', new_likes_coub_follow_path
     br/
     br/
-    = link_to 'Выполнять задания на лайки', likes_coub_likes_path
+    = link_to 'Удалить все свои задания', delete_all_likes_coub_tasks_path, method: :delete, data: { confirm: "Вы уверены?" }
     br/
     br/
-    = link_to 'Выполнять задания на подписки', likes_coub_follows_path
+    = link_to 'Выполнить задания на лайки', likes_coub_likes_path
     br/
-    = link_to 'Удалить все задания', delete_all_likes_coub_tasks_path, method: :delete, data: { confirm: "Вы уверены?" }
+    br/
+    = link_to 'Выполнить задания на подписки', likes_coub_follows_path
     br/
     br/
     = link_to "Выход из Coub и переход на главную страницу Coub Likes", logout_path, method: :delete
