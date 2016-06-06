@@ -1,0 +1,51 @@
+h4
+  center
+    table border = "1"
+      tr
+        td
+          strong Название
+        td
+          = @coub_like_task.title
+      tr
+        td
+          strong Адрес ссылки, где накрутить лайки
+        td
+          = link_to @coub_like_task.url
+      tr
+        td
+          strong Сколько лайков накрутить
+        td
+          = @coub_like_task.members_count
+      tr
+        td
+          strong Вознаграждение за лайк
+        td
+          = @coub_like_task.cost
+      tr
+        td
+          strong Лайков будет списано
+        td
+          = @coub_like_task.max_count
+      tr
+        td
+          strong Приостановлено?
+        td
+          - if @coub_like_task.paused
+            |  Да
+          - else
+            |  Нет
+      tr
+        td
+          strong Выполнено?
+        td
+          - if @coub_like_task.finished
+            |  Да
+          - else
+            |  Нет
+h4
+  center
+    table
+      tr
+        td = link_to 'Редактировать', edit_likes_coub_like_path(@coub_like_task)
+        td &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        td = link_to 'Назад', likes_coub_tasks_path

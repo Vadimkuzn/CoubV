@@ -12,19 +12,19 @@
       | &nbsp; Ссылка вида https://coub.com/someone
 
   .form-group
-    = f.label :members_count, "Сколько лайков накрутить:", :class => 'col-lg-4 control-label'
+    = f.label :members_count, "Сколько подписчиков накрутить:", :class => 'col-lg-4 control-label'
     .col-lg-6
       = f.number_field :members_count, :maxlength => "6", :class => 'form-control', :required => true
       | &nbsp; Минимум 10
 
   .form-group
-    = f.label :cost, "Вознаграждение за лайк:", :class => 'col-lg-4 control-label'
+    = f.label :cost, "Вознаграждение за подписку:", :class => 'col-lg-4 control-label'
     .col-lg-6
       = f.number_field :cost, :maxlength => "2", :min => 1, :max => 15, :class => 'form-control', :required => true
       | &nbsp; Минимум 1, Максимум 15
 
   .form-group
-    = f.label :max_count, "Лайков будет списано:", :class => 'col-lg-4 control-label'
+    = f.label :max_count, "Подписок будет списано:", :class => 'col-lg-4 control-label'
     .col-lg-6
       = f.text_field :max_count, :maxlength => "4", :disabled => true, :class => 'form-control'
 

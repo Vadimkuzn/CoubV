@@ -34,8 +34,8 @@ Rails.application.routes.draw do
      end
     end
 
-    resources :likes, only: [:new, :create, :index]
-    resources :follows, only: [:new, :create, :index]
+    resources :likes, only: [:new, :create, :index, :show, :edit, :update]
+    resources :follows, only: [:new, :create, :index, :show, :edit, :update]
    end
 
   end

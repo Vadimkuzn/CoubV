@@ -15,10 +15,18 @@
               td = "Лайк"
             - else
               td = "Подписка"
+
             td = task.created_at.strftime("%Y-%m-%d %H:%M")
-            td = link_to " Показать ", likes_coub_task_path(task)
-            td = link_to ' Редактировать ', edit_likes_coub_task_path(task)
-            td = link_to " Удалить ", likes_coub_task_path(task), method: :delete, data: { confirm: "Вы уверены?" }
+
+            - if task.type == "CoubLikeTask"
+              td = link_to " Показать ", likes_coub_like_path(task)
+              td = link_to ' Редактировать ', edit_likes_coub_like_path(task)
+              td = link_to " Удалить ", likes_coub_task_path(task), method: :delete, data: { confirm: "Вы уверены?" }
+            - else
+              td = link_to " Показать ", likes_coub_follow_path(task)
+              td = link_to ' Редактировать ', edit_likes_coub_follow_path(task)
+              td = link_to " Удалить ", likes_coub_task_path(task), method: :delete, data: { confirm: "Вы уверены?" }
+
             - if task.paused
               td = link_to " Возобновить ",   likes_coub_task_pause_path(task.id), method: :pause
             - else

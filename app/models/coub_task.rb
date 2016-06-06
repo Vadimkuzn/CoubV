@@ -4,15 +4,13 @@ class CoubTask < ActiveRecord::Base
  before_validation :set_max_count
 
  def self.default_scope
-   where deleted: false
+  where deleted: false
  end
 
  def set_max_count
   self.max_count = self.cost.to_i * self.members_count.to_i
   self.current_count = self.max_count
  end
-
-
 
  validates :title, presence: true, length: { maximum: 255 }
 # validates :title, uniqueness: { case_sensitive: false }

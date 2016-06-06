@@ -8,20 +8,21 @@ class Likes::Coub::TasksController < ApplicationController
    end
   end
 #--------------------------------------------------------------------------
-  def show
-   @coub_task = CoubTask.find(params[:id])
-  end
+#  def show
+#   @coub_task = CoubTask.find(params[:id])
+#  end
 #--------------------------------------------------------------------------
   def new
    @coub_task = CoubTask.new
   end
 #--------------------------------------------------------------------------
-  def edit
-   @coub_task = CoubTask.find(params[:id])
-  end
+#  def edit
+#   @coub_task = CoubTask.find(params[:id])
+#  end
 #--------------------------------------------------------------------------
   def create
    @coub_task = current_user.coub_tasks.build(task_params)
+
    coub_like_task = current_user.coub_like_tasks.build(task_params)
 
 #render plain: params[:coub_task].inspect
@@ -41,14 +42,14 @@ class Likes::Coub::TasksController < ApplicationController
    end
   end
 #--------------------------------------------------------------------------
-  def update
-   @coub_task = CoubTask.find(params[:id])
-   if @coub_task.update(task_params)
-    redirect_to [:likes, @coub_task]
-   else
-    render 'edit'
-   end
-  end
+#  def update
+#   @coub_task = CoubTask.find(params[:id])
+#   if @coub_task.update(task_params)
+#    redirect_to [:likes, @coub_task]
+#   else
+#    render 'edit'
+#   end
+#  end
 #--------------------------------------------------------------------------
   def destroy
    @coub_task = CoubTask.find(params[:id])
