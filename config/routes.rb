@@ -7,13 +7,22 @@ Rails.application.routes.draw do
 
   get '/likes/coub/tasks' => 'likes/coub/tasks#index', as: 'tasklist'
 
-#  get 'likes/coub/like/task'
-#  get 'likes/coub/follow/task'
-
   namespace :likes do
    namespace :coub do
 
     get 'main/index'
+
+    patch   'likes/coub/likes'
+    post    'likes/coub/likes'
+
+    patch   'likes/coub/follows'
+    post    'likes/coub/follows'
+
+#    patch   'likes'
+#    post    'likes'
+
+#    patch   'follows'
+#    post    'follows'
 
     get     'like/task'
     patch   'like/task'
@@ -27,15 +36,15 @@ Rails.application.routes.draw do
     post    'follow/task'
     delete  'follow/task'
 
-    resources :tasks, only: [:index, :destroy, :show, :edit, :update] do
+    resources :tasks, only: [:index, :destroy, :show, :edit, :update, :patch, :post] do
      post 'pause'
      collection do
       delete 'delete_all'
      end
     end
 
-    resources :likes, only: [:new, :create, :index, :show, :edit, :update]
-    resources :follows, only: [:new, :create, :index, :show, :edit, :update]
+    resources :likes, only: [:new, :create, :index, :show, :edit, :update, :patch, :post]
+    resources :follows, only: [:new, :create, :index, :show, :edit, :update, :patch, :post]
    end
 
   end

@@ -29,7 +29,7 @@ class Likes::Coub::FollowsController < ApplicationController
   def update
    @coub_follow_task = CoubFollowTask.find(params[:id])
    if @coub_follow_task.update(task_params)
-    redirect_to [:likes, @coub_follow_task]
+    redirect_to [:follows, @coub_follow_task]
    else
     render 'edit'
    end
