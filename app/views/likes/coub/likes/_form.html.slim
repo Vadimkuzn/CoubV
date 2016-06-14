@@ -1,4 +1,6 @@
-= form_for(@coub_like_task, url: likes_coub_likes_path) do |f|
+/  = form_for(@coub_like_task, url: likes_coub_likes_path) do |f|
+= form_for(@coub_like_task, :url => @coub_like_task.new_record? ? likes_coub_likes_path : likes_coub_like_path(@coub_like_task)) do |f|
+
   .form-group
     = f.label :title, "Название:",:class => 'col-lg-4 control-label'
     .col-lg-6
@@ -31,13 +33,10 @@
   .actions
     - if @record_exists
       = p(@record_exists)
-    /  = p(@coub_like_task.id)
-      = p(:likes_coub_like_path.inspect)
-      = p(:likes_coub_like_path[@coub_like_task.id])
-      = f.submit "Отправить задание", :class => 'btn btn-info', :url => :likes_coub_like_path[@coub_like_task.id], :method => 'patch'
+      = f.submit "Отправить задание", :class => 'btn btn-info', :method => 'patch'
     - else
       = p(@record_exists)
-      = f.submit "Отправить задание", :class => 'btn btn-info', :url => 'likes_coub_likes_path', :method => 'post'
+      = f.submit "Отправить задание", :class => 'btn btn-info', :method => 'post'
 
 - if @coub_like_task.errors.any?
   h2
