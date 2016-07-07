@@ -1,1 +1,47 @@
 h1 Подписаться на пользователей и заработать баллы
+- if current_user
+  h3 Список заданий для выполнения
+  center
+    table border = "1"
+      tr
+        h2
+          th &nbsp;&nbsp;Название&nbsp;&nbsp;
+          th &nbsp;&nbsp;Создано&nbsp;&nbsp;
+        h4
+        - @coub_tasks.each do |task|
+          /  - if (task.type == "CoubFollowTask") && !task.paused && !task.deleted && !task.finished && !task.suspended && (current_user[:id] != task.user_id)
+          - if (task.type == "CoubFollowTask") && !task.paused && !task.deleted && !task.finished && !task.suspended
+            /  = p task.user_id
+            /  = p current_user[:id]
+            tr
+              td = task.title
+              td = task.created_at.strftime("%Y-%m-%d %H:%M")
+              td = link_to " Показать ", likes_coub_follow_path(task)
+
+  br/
+  h2
+    /  = link_to 'Новое задание на накрутку лайков', new_likes_coub_like_path
+    /  br/
+    /  br/
+    /  = link_to 'Новое задание на накрутку подписчиков', new_likes_coub_follow_path
+    /  br/
+    /  br/
+    /  = link_to 'Удалить все свои задания', delete_all_likes_coub_tasks_path, method: :delete, data: { confirm: "Вы уверены?" }
+    /  br/
+    /  br/
+    /  = link_to 'Выполнить задания на лайки', likes_coub_likes_path
+    /  br/
+    /  br/
+    /  = link_to 'Выполнить задания на подписки', likes_coub_follows_path
+    /  br/
+    /  br/
+    /  = link_to "Выход из Coub и переход на главную страницу Coub Likes", logout_path, method: :delete
+    p
+      = link_to 'Назад', likes_coub_tasks_path
+
+- else
+  p
+    h1
+      |  Вход через Coub
+      br
+      = link_to image_tag("coub.jpg", alt: "Вход через Coub"), "/auth/coub"

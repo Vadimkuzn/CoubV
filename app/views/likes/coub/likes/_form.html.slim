@@ -32,10 +32,10 @@
 
   .actions
     - if @record_exists
-      = p(@record_exists)
+      / = p(@record_exists)
       = f.submit "Отправить задание", :class => 'btn btn-info', :method => 'patch'
     - else
-      = p(@record_exists)
+      / = p(@record_exists)
       = f.submit "Отправить задание", :class => 'btn btn-info', :method => 'post'
 
 - if @coub_like_task.errors.any?

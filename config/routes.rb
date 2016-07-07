@@ -12,30 +12,6 @@ Rails.application.routes.draw do
 
     get 'main/index'
 
-    patch   'likes/coub/likes'
-    post    'likes/coub/likes'
-
-    patch   'likes/coub/follows'
-    post    'likes/coub/follows'
-
-#    patch   'likes'
-#    post    'likes'
-
-#    patch   'follows'
-#    post    'follows'
-
-    get     'like/task'
-    patch   'like/task'
-    put     'like/task'
-    post    'like/task'
-    delete  'like/task'
-
-    get     'follow/task'
-    patch   'follow/task'
-    put     'follow/task'
-    post    'follow/task'
-    delete  'follow/task'
-
     resources :tasks, only: [:index, :destroy, :show, :edit, :update, :patch, :post] do
      post 'pause'
      collection do
@@ -43,10 +19,10 @@ Rails.application.routes.draw do
      end
     end
 
-    resources :likes, only: [:new, :create, :index, :show, :edit, :update, :patch, :post]
+    resources :likes,   only: [:new, :create, :index, :show, :edit, :update, :patch, :post]
     resources :follows, only: [:new, :create, :index, :show, :edit, :update, :patch, :post]
-   end
 
+   end
   end
 
   root 'likes/coub/main#index'
