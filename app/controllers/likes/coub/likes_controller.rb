@@ -22,6 +22,7 @@ class Likes::Coub::LikesController < ApplicationController
   end
 #--------------------------------------------------------------------------
   def create
+=begin
    @coub_like_task = current_user.coub_like_tasks.build(task_params)
    vclib = VCoubLib.new(current_user)
    coubjson = vclib.get_coub(@coub_like_task[:url])
@@ -33,6 +34,18 @@ class Likes::Coub::LikesController < ApplicationController
    template.gsub!(/%{type}/, types[0])
 #   render plain: template.inspect
    @coub_like_task[:picture_path] = template
+=end
+
+   @coub_like_task = current_user.coub_like_tasks.build(task_params)
+   vclib = VCoubLib.new(current_user)
+   coubjson = vclib.get_coub(@coub_like_task[:url])
+   web = coubjson["first_frame_versions"]
+   template = web["template"]
+   versions = web["versions"]
+   template.gsub!(/%{version}/, versions[0])
+#render plain: template.inspect
+   @coub_like_task[:picture_path] = template
+
 
    if @coub_like_task.save
     redirect_to likes_coub_tasks_path
