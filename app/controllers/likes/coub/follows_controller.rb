@@ -4,6 +4,7 @@ class Likes::Coub::FollowsController < ApplicationController
   def index
    # список заданий для выполнения на подписки
    @coub_follow_tasks = CoubFollowTask.where.not(paused: true, suspended: true, user_id: current_user.id)
+#   @coub_follow_tasks = CoubFollowTask.where.not(paused: true, suspended: true)
   end
 #--------------------------------------------------------------------------
   def new

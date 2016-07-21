@@ -6,6 +6,7 @@ class Likes::Coub::LikesController < ApplicationController
   def index
    # список заданий для выполнения на лайки
    @coub_like_tasks = CoubLikeTask.where.not(paused: true, suspended: true, user_id: current_user.id)
+#   @coub_like_tasks = CoubLikeTask.where.not(paused: true, suspended: true)
   end
 #--------------------------------------------------------------------------
   def new
