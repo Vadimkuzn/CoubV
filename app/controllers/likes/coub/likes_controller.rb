@@ -5,8 +5,8 @@ class Likes::Coub::LikesController < ApplicationController
 #--------------------------------------------------------------------------
   def index
    # список заданий для выполнения на лайки
-   @coub_like_tasks = CoubLikeTask.where.not(paused: true, suspended: true, user_id: current_user.id)
-#   @coub_like_tasks = CoubLikeTask.where.not(paused: true, suspended: true)
+   @coub_like_tasks = CoubLikeTask.where(paused: false, suspended: false).where.not(user_id: current_user.id)
+#   @coub_like_tasks = CoubLikeTask.where(paused: false, suspended: false))
   end
 #--------------------------------------------------------------------------
   def new
@@ -24,12 +24,22 @@ class Likes::Coub::LikesController < ApplicationController
   def create
    @coub_like_task = current_user.coub_like_tasks.build(task_params)
    vclib = VCoubLib.new(current_user)
-   @coub_like_task[:picture_path] = vclib.get_current_user_avatar()
+   coubjson = vclib.get_coub(@coub_like_task[:url])
+   web = coubjson["file_versions"]["web"]
+   template = web["template"]
+   types = web["types"]
+   versions = web["versions"]
+   template.gsub!(/%{version}/, versions[0])
+   template.gsub!(/%{type}/, types[0])
+#   render plain: template.inspect
+   @coub_like_task[:picture_path] = template
+
    if @coub_like_task.save
     redirect_to likes_coub_tasks_path
    else
     render 'new'
    end
+
   end
 #--------------------------------------------------------------------------
   def update
@@ -47,3 +57,6 @@ private
  end
 #--------------------------------------------------------------------------
 end
+
+
+#{"template"=>"http://storage.akamai.coub.com/get/b118/p/coub/simple/cw_file/1ac600a5433/9e88520fce52b812775d3/%{type}_%{version}_size_1457374269_%{version}.%{type}", "types"=>["mp4"], "versions"=>["big", "med"]}
