@@ -1,5 +1,5 @@
 - if current_user
-  h1 Список своих заданий
+  h1 Список заданий
   center
     table border = "1"
       tr
@@ -18,6 +18,9 @@
 
             td = task.created_at.strftime("%Y-%m-%d %H:%M")
 
+            /  td = task.user_id
+            /  td = current_user[:id]
+
             - if task.type == "CoubLikeTask"
               td = link_to " Показать ", likes_coub_like_path(task)
               td = link_to ' Редактировать ', edit_likes_coub_like_path(task)
@@ -31,6 +34,8 @@
               td = link_to " Возобновить ",   likes_coub_task_pause_path(task.id), method: :pause
             - else
               td = link_to " Приостановить ", likes_coub_task_pause_path(task.id), method: :pause, data: { confirm: "Вы уверены?" }
+
+
   br/
   h2
     = link_to 'Новое задание на накрутку лайков', new_likes_coub_like_path

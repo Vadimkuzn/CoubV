@@ -1,3 +1,4 @@
+require 'uri'
 class VCoubLib
 
   def initialize(user)
@@ -166,9 +167,23 @@ class VCoubLib
   ch["id"]
  end
 #-----------------------------------------------------------------------
+def get_current_user_avatar()
+  channel = get_current_user_channel()
+  avt_ver = channel["avatar_versions"]
+  avatar_url = avt_ver["template"]
+  avatar_url.gsub!(/%{version}/, "medium")
+end
+#-----------------------------------------------------------------------
  def does_follow?(channel_id)
    followers = get_followers_list(channel_id)
    followers.include? get_current_user_channel_id()
+ end
+#-----------------------------------------------------------------------
+ def valid?(url)
+   uri = URI.parse(url)
+   uri.kind_of?(URI::HTTP)
+  rescue URI::InvalidURIError
+   false
  end
 #-----------------------------------------------------------------------
 end

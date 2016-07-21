@@ -1,4 +1,4 @@
-require 'my_coub_lib'
+require 'v_coub_lib'
 
 class Likes::Coub::TasksController < ApplicationController
 #--------------------------------------------------------------------------
@@ -8,40 +8,9 @@ class Likes::Coub::TasksController < ApplicationController
    end
   end
 #--------------------------------------------------------------------------
-#  def show
-#   @coub_task = CoubTask.find(params[:id])
-#  end
-#--------------------------------------------------------------------------
   def new
    @coub_task = CoubTask.new
   end
-#--------------------------------------------------------------------------
-#  def edit
-#   @coub_task = CoubTask.find(params[:id])
-#  end
-#--------------------------------------------------------------------------
-  def create
-   @coub_task = current_user.coub_tasks.build(task_params)
-
-   coub_like_task = current_user.coub_like_tasks.build(task_params)
-
-#render plain: params[:coub_task].inspect
-#render plain: @coub_task.inspect
-   @coub_task[:type] = coub_like_task[:type]     #temporary
-   @coub_task[:picture_path] = "fff"     #temporary
-
-   if @coub_task.save
-#render plain: @coub_task.inspect
-#    result = MyCoubLib.new.does_like?(current_user)
-#    render plain: result.inspect
-
-# does_like?(item_id, access_token)
-    redirect_to [:likes, @coub_task]
-   else
-    render 'new'
-   end
-  end
-
 #--------------------------------------------------------------------------
 
 =begin
@@ -64,7 +33,7 @@ t.boolean   "finished",
 t.datetime  "created_at",
 t.datetime  "updated_at",
 
- t.id                                                      # !!!
+ t.id                                                      #
  t.integer   "user_id",       null:    false               # кто поставил задание. на данном этапе забей на это поле !!!
  t.string    "title",         limit:   255                 # название задания, необязательное, больше для юзера
  t.string    "type",          limit:   255, null: false    # тип задания(сейчас это будет только 1 тип: CbLikeTask - накрутка лайков к записи) !!!
@@ -85,15 +54,6 @@ t.datetime  "updated_at",
  t.datetime  "updated_at",    null:    false               # !!!
 =end
 
-#--------------------------------------------------------------------------
-#  def update
-#   @coub_task = CoubTask.find(params[:id])
-#   if @coub_task.update(task_params)
-#    redirect_to [:likes, @coub_task]
-#   else
-#    render 'edit'
-#   end
-#  end
 #--------------------------------------------------------------------------
   def destroy
    @coub_task = CoubTask.find(params[:id])

@@ -1,3 +1,10 @@
+- require 'uri'
+
+- vclib = VCoubLib.new(current_user)
+- if vclib.valid?(@coub_follow_task.picture_path)
+  = image_tag(@coub_follow_task.picture_path, :alt => "Аватар не найден")
+
+br
 h4
   center
     table border = "1"

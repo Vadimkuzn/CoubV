@@ -3,6 +3,8 @@ class CoubTask < ActiveRecord::Base
 
  before_validation :set_max_count
 
+ default_scope { where(deleted: false) }
+
  def self.default_scope
   where deleted: false
  end

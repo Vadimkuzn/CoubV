@@ -1,3 +1,12 @@
+- require 'uri'
+
+/  img src="http://storage.akamai.coub.com/get/b234/p/channel/cw_avatar/1ca448bea62/d17a8495c437f87acfea8/medium_1458743685_Vadya1.jpg" alt="альтернативный текст"
+
+- vclib = VCoubLib.new(current_user)
+- if vclib.valid?(@coub_like_task.picture_path)
+  = image_tag(@coub_like_task.picture_path, :alt => "Аватар не найден")
+
+br
 h4
   center
     table border = "1"
