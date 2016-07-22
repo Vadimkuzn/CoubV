@@ -171,7 +171,7 @@ def get_current_user_avatar()
   channel = get_current_user_channel()
   avt_ver = channel["avatar_versions"]
   avatar_url = avt_ver["template"]
-  avatar_url.gsub!(/%{version}/, "medium")
+  avatar_url.gsub!(/%{version}/, "medium_2x")
 end
 #-----------------------------------------------------------------------
  def does_follow?(channel_id)
