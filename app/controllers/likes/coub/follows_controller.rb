@@ -3,8 +3,8 @@ require 'v_coub_lib'
 class Likes::Coub::FollowsController < ApplicationController
   def index
    # список заданий для выполнения на подписки
-#   @coub_follow_tasks = CoubFollowTask.where(paused: false, suspended: false).where.not(user_id: current_user.id)
-   @coub_follow_tasks = CoubFollowTask.where(paused: false, suspended: false)
+#   @coub_follow_tasks = CoubFollowTask.where(paused: false, suspended: false).where.not(user_id: current_user.id).order(cost: :desc).first(20)
+   @coub_follow_tasks = CoubFollowTask.where(paused: false, suspended: false).order(cost: :desc).first(3)
   end
 #--------------------------------------------------------------------------
   def new

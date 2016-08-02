@@ -1,0 +1,101 @@
+.full-width { width:100% }
+.left-aligned { text-align: left}
+.right-aligned { text-align: right}
+
+.actions {
+  text-align: center;
+}
+
+form table tbody tr td {
+  padding-bottom: 5px;
+}
+
+form table tbody tr td label {
+  margin-bottom: 0px;
+}
+
+form table tbody tr td small {
+  font-size: 80%;
+}
+
+.exceeded {
+  color: red;
+}
+
+.group-list-item {
+  position: relative;
+  display: inline-block;
+  padding: 1px 3px;
+}
+
+.task-image {
+  width: 120px;
+  height: 110px;
+}
+
+.ig-task-image {
+  width: 160px;
+  height: 160px;
+}
+
+.coub-task-image {
+  width: 160px;
+  height: 160px;
+}
+
+.ok-task-image {
+  width: 50px;
+  height: 50px;
+}
+
+.yt-task-image {
+  width: 120px;
+  height: 110px;
+}
+
+.task-bonus {
+  float: left;
+  position: absolute;
+  bottom: 0;
+  background: transparent;
+  background-color: rgb(0,0,0);
+  color: rgb(255,255,255);
+  opacity: 0.7;
+  border: 1px solid #000;
+  padding: 1px 6px 0 0;
+  -webkit-border-top-right-radius: 7px;
+  -khtml-border-radius-topright: 7px;
+  -moz-border-radius-topright: 7px;
+  border-top-right-radius: 7px;
+}
+
+.task-block {
+  min-height: 120px;
+
+  p.list-group-item-text {
+    margin-left: 110px;
+  }
+
+  h4.list-group-item-heading {
+    margin-left: 110px;
+  }
+
+  .task-image {
+    float: left !important;
+  }
+
+  .task-description {
+    float: left;
+    margin-left: 100px;
+  }
+
+
+}
+
+.table {
+  font-size: 13px;
+}
+
+.trackings-tabs {
+  margin-bottom: 10px;
+}

@@ -77,6 +77,40 @@ t.datetime  "updated_at",
    redirect_to likes_coub_tasks_path
   end
 #--------------------------------------------------------------------------
+  def open
+#    @task = CoubTask.not_suspended.not_paused.not_finished.find(params[:id])
+    @task = CoubTask.find(params[:task_id])
+
+    if @task
+      CoubTasksUser.create(:coub_task => @task, :user => current_user)
+#      User.create(:coub_task => @task, :user => current_user)
+      redirect_to @task.redirect_url
+    end
+  end
+#--------------------------------------------------------------------------
+  def check
+    @task = CoubTask.find(params[:id])
+    @completed = @task.task_completed?(current_user)
+
+    if @completed
+      CoubTask.transaction do
+        current_user.lock!
+        @task.add_money_to_user(current_user)
+      end
+    else
+      @task.decrease_limit_counter
+    end
+  rescue IncorrectTokenException
+    @incorrect_token = true
+  rescue => ex
+    if ex.message == "Sorry, this coub has been deleted."
+      task = CoubTask.find(params[:id])
+      task.suspend!
+      @completed = false
+    end
+  end
+
+#--------------------------------------------------------------------------
 private
   def task_params
    params.require(:coub_task).permit(:user_id, :title, :type, :url, :cost, :item_id, :shortcode, :deleted, :paused, :suspended, :verified, :current_count, :max_count, :members_count, :picture_path, :finished, :created_at, :updated_at)

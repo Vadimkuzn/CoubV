@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160414102934) do
+ActiveRecord::Schema.define(version: 20160802062839) do
 
   create_table "coub_tasks", force: :cascade do |t|
     t.integer  "user_id",                                   null: false
@@ -32,6 +32,16 @@ ActiveRecord::Schema.define(version: 20160414102934) do
     t.boolean  "finished",                  default: false, null: false
     t.datetime "created_at",                                null: false
     t.datetime "updated_at",                                null: false
+  end
+
+  create_table "coub_tasks_users", force: :cascade do |t|
+    t.integer  "user_id",                                  null: false
+    t.integer  "coub_task_id",                             null: false
+    t.string   "coub_id",      limit: 255,                 null: false
+    t.boolean  "state"
+    t.boolean  "panished",                 default: false, null: false
+    t.datetime "created_at",                               null: false
+    t.datetime "updated_at",                               null: false
   end
 
   create_table "users", force: :cascade do |t|

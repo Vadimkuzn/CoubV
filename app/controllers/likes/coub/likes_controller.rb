@@ -6,7 +6,11 @@ class Likes::Coub::LikesController < ApplicationController
   def index
    # список заданий для выполнения на лайки
 #   @coub_like_tasks = CoubLikeTask.where(paused: false, suspended: false).where.not(user_id: current_user.id)
-   @coub_like_tasks = CoubLikeTask.where(paused: false, suspended: false)
+#   @coub_like_tasks = CoubLikeTask.where(paused: false, suspended: false).order(cost: :desc).first(3).where.not(user_id: current_user.id)
+   @coub_like_tasks = CoubLikeTask.where(paused: false, suspended: false).order(cost: :desc).first(3)
+
+#   @coub_like_tasks = CoubLikeTask.where(paused: false, suspended: false).where.not(user_id: current_user.id).order(cost: :desc).first(20)
+
   end
 #--------------------------------------------------------------------------
   def new
@@ -40,9 +44,12 @@ class Likes::Coub::LikesController < ApplicationController
    vclib = VCoubLib.new(current_user)
    coubjson = vclib.get_coub(@coub_like_task[:url])
    web = coubjson["first_frame_versions"]
+#render plain: web.inspect
    template = web["template"]
    versions = web["versions"]
-   template.gsub!(/%{version}/, versions[0])
+#"versions"=>["big", "med", "small", "ios_large"]
+#   template.gsub!(/%{version}/, versions[0])
+   template.gsub!(/%{version}/, versions[2])
 #render plain: template.inspect
    @coub_like_task[:picture_path] = template
 

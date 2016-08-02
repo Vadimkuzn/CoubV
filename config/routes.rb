@@ -14,6 +14,8 @@ Rails.application.routes.draw do
 
     resources :tasks, only: [:index, :destroy, :show, :edit, :update, :patch, :post] do
      post 'pause'
+     post 'check'
+     get 'open'
      collection do
       delete 'delete_all'
      end

@@ -1,19 +1,24 @@
-h1 Поставить лайки и заработать баллы
-- if current_user
-  h3 Список заданий для выполнения
-  center
-    table border = "1"
-      tr
-        h2
-          th &nbsp;&nbsp;Название&nbsp;&nbsp;
-          th &nbsp;&nbsp;Создано&nbsp;&nbsp;
-        h4
-        - @coub_like_tasks.each do |task|
-          tr
-            td = task.title
-            td = task.created_at.strftime("%Y-%m-%d %H:%M")
-            td = link_to " Показать ", likes_coub_like_path(task)
+h1 Поставить лайки в Coub
 
+- if current_user
+
+  = render :partial => 'real/coub/tasks/limits'
+
+  .alert.alert-warning Обращаем Ваше внимание, что запрещено использовать автоматические программы/скрипты для выполнения заданий через сайт. Для этого есть специальное API. Любые нарушители будут забанены вместе с основными аккаунтами, куда будут производиться переводы.
+  .centered-text
+    = link_to new_likes_coub_like_path, :class => 'btn btn-primary btn-lg' do
+      span.glyphicon.glyphicon-plus
+      |  Добавить Coub в список
+
+  .coub-tasks-list
+    - @coub_like_tasks.each do |task|
+      .group-list-item id="task-#{task.id}"
+        a href="javascript:void(0)" onclick="window.App.open_likes_coub_task_window('#{task.id}', '#{current_user.id}');"
+          .coub-task-image
+            = image_tag(task.picture_path || 'http://lorempixel.com/100/100/sports/', :class => 'thumbnail')
+            .task-bonus
+              |  #{task.cost} ♥
+  center
   br/
   h2
     p

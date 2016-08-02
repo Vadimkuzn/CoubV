@@ -2,7 +2,10 @@
 
 - vclib = VCoubLib.new(current_user)
 - if vclib.valid?(@coub_follow_task.picture_path)
-  = image_tag(@coub_follow_task.picture_path, :alt => "Фрейм не найден")
+  table align = "center"
+    tr
+      td
+        = image_tag(@coub_like_task.picture_path, :alt => "Аватар не найден")
 
 br
 h4
