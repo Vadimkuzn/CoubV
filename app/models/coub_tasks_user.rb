@@ -6,7 +6,7 @@ class CoubTasksUser < ActiveRecord::Base
   after_create  :decrease_task_money
 
   def set_coub_id
-  	provider = self.user.coub_provider
+  	provider = self.user.provider
   	self.coub_id = provider.uid if provider
   end
 

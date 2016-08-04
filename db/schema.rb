@@ -44,6 +44,13 @@ ActiveRecord::Schema.define(version: 20160802062839) do
     t.datetime "updated_at",                               null: false
   end
 
+  add_index "coub_tasks_users", ["coub_task_id", "coub_id"], name: "index_coub_tasks_users_on_coub_task_id_and_coub_id", unique: true, using: :btree
+  add_index "coub_tasks_users", ["coub_task_id", "state", "panished"], name: "index_coub_tasks_users_on_coub_task_id_and_state_and_panished", using: :btree
+  add_index "coub_tasks_users", ["coub_task_id", "user_id"], name: "index_coub_tasks_users_on_coub_task_id_and_user_id", using: :btree
+  add_index "coub_tasks_users", ["panished", "user_id"], name: "index_coub_tasks_users_on_panished_and_user_id", using: :btree
+  add_index "coub_tasks_users", ["state", "created_at"], name: "index_coub_tasks_users_on_state_and_created_at", using: :btree
+  add_index "coub_tasks_users", ["user_id"], name: "index_coub_tasks_users_on_user_id", using: :btree
+
   create_table "users", force: :cascade do |t|
     t.string   "provider"
     t.string   "uid"
