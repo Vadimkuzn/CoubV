@@ -1,4 +1,4 @@
-require 'v_coub_lib'
+#require 'v_coub_lib'
 
 class Likes::Coub::TasksController < ApplicationController
 #--------------------------------------------------------------------------
@@ -83,7 +83,6 @@ t.datetime  "updated_at",
 
     if @task
       CoubTasksUser.create(:coub_task => @task, :user => current_user)
-#      User.create(:coub_task => @task, :user => current_user)
       redirect_to @task.redirect_url
     end
   end

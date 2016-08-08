@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160802062839) do
+ActiveRecord::Schema.define(version: 20160804130316) do
 
   create_table "coub_tasks", force: :cascade do |t|
     t.integer  "user_id",                                   null: false
@@ -44,20 +44,14 @@ ActiveRecord::Schema.define(version: 20160802062839) do
     t.datetime "updated_at",                               null: false
   end
 
-  add_index "coub_tasks_users", ["coub_task_id", "coub_id"], name: "index_coub_tasks_users_on_coub_task_id_and_coub_id", unique: true, using: :btree
-  add_index "coub_tasks_users", ["coub_task_id", "state", "panished"], name: "index_coub_tasks_users_on_coub_task_id_and_state_and_panished", using: :btree
-  add_index "coub_tasks_users", ["coub_task_id", "user_id"], name: "index_coub_tasks_users_on_coub_task_id_and_user_id", using: :btree
-  add_index "coub_tasks_users", ["panished", "user_id"], name: "index_coub_tasks_users_on_panished_and_user_id", using: :btree
-  add_index "coub_tasks_users", ["state", "created_at"], name: "index_coub_tasks_users_on_state_and_created_at", using: :btree
-  add_index "coub_tasks_users", ["user_id"], name: "index_coub_tasks_users_on_user_id", using: :btree
-
   create_table "users", force: :cascade do |t|
     t.string   "provider"
     t.string   "uid"
     t.string   "auth_token"
     t.string   "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+    t.integer  "money",      default: 0, null: false
   end
 
 end

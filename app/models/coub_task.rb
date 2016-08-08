@@ -1,4 +1,7 @@
 class CoubTask < ActiveRecord::Base
+ include CommonTask
+# include Limitable
+
  belongs_to :user
 
  before_validation :set_max_count
@@ -12,6 +15,10 @@ class CoubTask < ActiveRecord::Base
  def set_max_count
   self.max_count = self.cost.to_i * self.members_count.to_i
   self.current_count = self.max_count
+ end
+
+ def set_cost
+  self.cost ||= 1
  end
 
  validates :title, presence: true, length: { maximum: 255 }

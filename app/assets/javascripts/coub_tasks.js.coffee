@@ -1,7 +1,7 @@
 window.App ||= {}
 
-window.App.open_coub_task_window = (task_id, user_id) ->
-  open_coub_window("likes/coub/tasks/#{task_id}/open", task_id, user_id)
+window.App.open_likes_coub_task_window = (task_id, user_id) ->
+  open_coub_window("/likes/coub/tasks/#{task_id}/open", task_id, user_id)
   window.App.hide_task(task_id)
 
 open_coub_window = (url, task_id, user_id) ->

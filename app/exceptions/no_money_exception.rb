@@ -1,0 +1,3 @@
+class NoMoneyException < StandardError
+
+end
