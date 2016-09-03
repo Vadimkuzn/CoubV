@@ -54,10 +54,13 @@ h4
             |  Да
           - else
             |  Нет
+
 h4
   center
     table
       tr
         td = link_to 'Редактировать', edit_likes_coub_like_path(@coub_like_task)
+        td &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        td = link_to 'Удалить', likes_coub_task_path(@coub_like_task), method: :delete, data: { confirm: "Вы уверены?" }
         td &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         td = link_to 'Назад', likes_coub_tasks_path

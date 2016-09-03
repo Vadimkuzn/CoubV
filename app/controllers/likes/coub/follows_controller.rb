@@ -4,7 +4,8 @@ class Likes::Coub::FollowsController < ApplicationController
   def index
    # список заданий для выполнения на подписки
 #   @coub_follow_tasks = CoubFollowTask.where(paused: false, suspended: false).where.not(user_id: current_user.id).order(cost: :desc).first(20)
-   @coub_follow_tasks = CoubFollowTask.where(paused: false, suspended: false).order(cost: :desc).first(3)
+#CHANGE!!!
+   @coub_follow_tasks = CoubFollowTask.where(paused: false, suspended: false).order(cost: :desc).first(20)
   end
 #--------------------------------------------------------------------------
   def new
@@ -22,9 +23,9 @@ class Likes::Coub::FollowsController < ApplicationController
   def create
    @coub_follow_task = current_user.coub_follow_tasks.build(task_params)
    vclib = VCoubLib.new(current_user)
-   @coub_follow_task[:picture_path] = vclib.get_current_user_avatar()
+   @coub_follow_task[:picture_path] = vclib.get_avatar(vclib.get_shortcode(@coub_follow_task[:url]))
     if @coub_follow_task.save
-      redirect_to likes_coub_tasks_path
+     redirect_to likes_coub_tasks_path
     else
      render 'new'
     end

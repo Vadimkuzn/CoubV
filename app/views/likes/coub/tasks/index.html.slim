@@ -54,6 +54,15 @@
     br/
     br/
     = link_to "Выход из Coub и переход на главную страницу Coub Likes", logout_path, method: :delete
+
+  .centered-text
+    center
+     .alert.alert-warning
+       strong
+         table border = "1"
+           tr
+             th &nbsp;Ваш баланс: #{current_user.money}&nbsp;
+
 - else
   p
     h1

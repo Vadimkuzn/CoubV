@@ -1,5 +1,5 @@
 class CoubLikeTask < CoubTask
- URL_FORMAT = /https?:\/\/coub.com\/view\/(\w+)/i
+ URL_FORMAT = /https?:\/\/coub.com\/view\/([\w\.]+)/i
  validates_format_of :url, :with => URL_FORMAT
 
  before_validation :set_shortcode
@@ -7,5 +7,6 @@ class CoubLikeTask < CoubTask
  def set_shortcode
   self.shortcode = CoubUrlParser.new(self.url).get_shortcode
   self.item_id = VCoubLib.new(user).get_coub_id(url)
+#shortcode.append_file('c:\lshortcode.txt')
  end
 end

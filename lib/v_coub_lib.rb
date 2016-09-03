@@ -1,17 +1,18 @@
 require 'uri'
+
 class VCoubLib
-
-  def initialize(user)
-    raise ArgumentError if user.nil?
-    @user = user
-  end
-
-
-  def channel_id_by_shortcode(shortcode)
-    result = get_current_user_api().get("channels/#{shortcode}")
-    result["id"]
-  end
-
+#-----------------------------------------------------------------------
+AVATAR_SIZE = "medium_2x"
+#-----------------------------------------------------------------------
+ def initialize(user)
+  raise ArgumentError if user.nil?
+  @user = user
+  @uapi = CoubApi::Client.new(user.auth_token)
+ end
+#-----------------------------------------------------------------------
+ def channel_id_by_shortcode(shortcode)
+  @uapi.get("channels/#{shortcode}")["id"]
+ end
 #-----------------------------------------------------------------------
 #  current_user.name
 #  current_user.id
@@ -22,22 +23,21 @@ class VCoubLib
 #  current_user.updated_at
 
 #-----------------------------------------------------------------------
- def get_current_user_api()
+  def get_current_user_api()
    CoubApi::Client.new(@user.auth_token)
- end
+  end
 #-----------------------------------------------------------------------
- def get_shortcode(url)
-  arr = url.scan(/\w+/)
-  arr[-1]
- end
+  def get_shortcode(url)
+   (url.split("/")[-1]).to_s
+  end
 #-----------------------------------------------------------------------
- def get_coub(url)
-  get_current_user_api().get("coubs/#{get_shortcode(url)}")
- end
+  def get_coub(url)
+   @uapi.get("coubs/#{get_shortcode(url)}")
+  end
 #-----------------------------------------------------------------------
- def get_coub_id(url)
-  get_coub(url)['id']
- end
+  def get_coub_id(url)
+   get_coub(url)['id']
+  end
 #-----------------------------------------------------------------------
 
 # Usecase:
@@ -46,51 +46,49 @@ class VCoubLib
 # t = CoubTask.find 53
 # lib.does_like?(t.item_id)
 
- def does_like?(coub_id)
+  def does_like?(coub_id)
    get_likers_list_by_id(coub_id).include?(get_current_user_channel_id())
- end
+  end
 
 # ar:
-# — page (integer) — the number of the required page;
-# — total_pages (integer) — the number of all pages;
+# â€” page (integer) â€” the number of the required page;
+# â€” total_pages (integer) â€” the number of all pages;
 
-# — channels (array) — the array of channel small JSONs:
+# â€” channels (array) â€” the array of channel small JSONs:
 
-# — id (integer) — the identifier of the channel;
-# — permalink (string) — the permalink of the channel;
-# — description (string) — the description of the channel;
-# — title (string) — the title of the channel;
-# — i_follow_him (boolean) — whether this channel is followed by you;
-# — followers_count (integer) — the number of channel's followers;
-# — following_count (integer) — the number of channels that the channel follows;
-# — avatar_versions (JSON) — the JSON object that contains data about channel's thumbnail images:
-# — template (string) — the template of the URLs to the files specified in this JSON;
-# — versions (array) — the array of strings that refer to available image versions: — medium — 48x48 pixels;
-# — medium_2x — 96x96 pixels;
-# — profile_pic — 160x160 pixels;
-# — profile_pic_2x — 320x320 pixels;
-# — profile_pic_new — 110x110 pixels;
-# — profile_pic_new_2x — 220x220 pixels;
-# — tiny — 32x32 pixels;
-# — tiny_2x — 64x64 pixels;
-# — small — 38x38 pixels;
-# — small_2x — 76x76 pixels;
-# — ios_large — 140x140 pixels;
-# — ios_small — 70x70 pixels.
+# â€” id (integer) â€” the identifier of the channel;
+# â€” permalink (string) â€” the permalink of the channel;
+# â€” description (string) â€” the description of the channel;
+# â€” title (string) â€” the title of the channel;
+# â€” i_follow_him (boolean) â€” whether this channel is followed by you;
+# â€” followers_count (integer) â€” the number of channel's followers;
+# â€” following_count (integer) â€” the number of channels that the channel follows;
+# â€” avatar_versions (JSON) â€” the JSON object that contains data about channel's thumbnail images:
+# â€” template (string) â€” the template of the URLs to the files specified in this JSON;
+# â€” versions (array) â€” the array of strings that refer to available image versions: â€” medium â€” 48x48 pixels;
+# â€” medium_2x â€” 96x96 pixels;
+# â€” profile_pic â€” 160x160 pixels;
+# â€” profile_pic_2x â€” 320x320 pixels;
+# â€” profile_pic_new â€” 110x110 pixels;
+# â€” profile_pic_new_2x â€” 220x220 pixels;
+# â€” tiny â€” 32x32 pixels;
+# â€” tiny_2x â€” 64x64 pixels;
+# â€” small â€” 38x38 pixels;
+# â€” small_2x â€” 76x76 pixels;
+# â€” ios_large â€” 140x140 pixels;
+# â€” ios_small â€” 70x70 pixels.
 
 #-----------------------------------------------------------------------
- def get_likers_list(url)
-   coub_id = get_coub_id(url)
-   get_likers_list_by_id(coub_id)
- end
-
- def get_likers_list_by_id(coub_id)
-   api = get_current_user_api()
+  def get_likers_list(url)
+   get_likers_list_by_id(get_coub_id(url))
+  end
+#-----------------------------------------------------------------------
+  def get_likers_list_by_id(coub_id)
    begin
-    ar  = api.get('action_subjects_data/coub_likes_list', id: coub_id, page: 1)
-   rescue
-    nil
-    return
+    ar  = @uapi.get('action_subjects_data/coub_likes_list', id: coub_id, page: 1)
+    rescue
+     nil
+     return
    end
    arch = ar['channels']
    churls = []
@@ -105,85 +103,102 @@ class VCoubLib
  end
 
 # ar:
-# — page (integer) — the number of the required page;
-# — total_pages (integer) — the number of all pages;
+# â€” page (integer) â€” the number of the required page;
+# â€” total_pages (integer) â€” the number of all pages;
 
-# — channels (array) — the array of channel small JSONs:
+# â€” channels (array) â€” the array of channel small JSONs:
 
-# — id (integer) — the identifier of the channel;
-# — permalink (string) — the permalink of the channel;
-# — description (string) — the description of the channel;
-# — title (string) — the title of the channel;
-# — i_follow_him (boolean) — whether this channel is followed by you;
-# — followers_count (integer) — the number of channel's followers;
-# — following_count (integer) — the number of channels that the channel follows;
-# — avatar_versions (JSON) — the JSON object that contains data about channel's thumbnail images:
-# — template (string) — the template of the URLs to the files specified in this JSON;
-# — versions (array) — the array of strings that refer to available image versions: — medium — 48x48 pixels;
-# — medium_2x — 96x96 pixels;
-# — profile_pic — 160x160 pixels;
-# — profile_pic_2x — 320x320 pixels;
-# — profile_pic_new — 110x110 pixels;
-# — profile_pic_new_2x — 220x220 pixels;
-# — tiny — 32x32 pixels;
-# — tiny_2x — 64x64 pixels;
-# — small — 38x38 pixels;
-# — small_2x — 76x76 pixels;
-# — ios_large — 140x140 pixels;
-# — ios_small — 70x70 pixels.
+# â€” id (integer) â€” the identifier of the channel;
+# â€” permalink (string) â€” the permalink of the channel;
+# â€” description (string) â€” the description of the channel;
+# â€” title (string) â€” the title of the channel;
+# â€” i_follow_him (boolean) â€” whether this channel is followed by you;
+# â€” followers_count (integer) â€” the number of channel's followers;
+# â€” following_count (integer) â€” the number of channels that the channel follows;
+# â€” avatar_versions (JSON) â€” the JSON object that contains data about channel's thumbnail images:
+# â€” template (string) â€” the template of the URLs to the files specified in this JSON;
+# â€” versions (array) â€” the array of strings that refer to available image versions: â€” medium â€” 48x48 pixels;
+# â€” medium_2x â€” 96x96 pixels;
+# â€” profile_pic â€” 160x160 pixels;
+# â€” profile_pic_2x â€” 320x320 pixels;
+# â€” profile_pic_new â€” 110x110 pixels;
+# â€” profile_pic_new_2x â€” 220x220 pixels;
+# â€” tiny â€” 32x32 pixels;
+# â€” tiny_2x â€” 64x64 pixels;
+# â€” small â€” 38x38 pixels;
+# â€” small_2x â€” 76x76 pixels;
+# â€” ios_large â€” 140x140 pixels;
+# â€” ios_small â€” 70x70 pixels.
 
 #-----------------------------------------------------------------------
  def get_followers_list(channel_id)
-   api = get_current_user_api()
-   begin
-    ar  = api.get('action_subjects_data/followers_list', id: channel_id, page: 1)
-   rescue
-    nil
-    return
-   end
-   ar['channels'].collect { |ch| ch["id"] }
+  begin
+   ar  = @uapi.get('action_subjects_data/followers_list', id: channel_id, page: 1)
+  rescue
+   nil
+   return
+  end
+  ar['channels'].collect { |ch| ch["id"] }
  end
 #-----------------------------------------------------------------------
  def get_current_user_info()
-   get_current_user_api().get('users/me')
+  @uapi.get('users/me')
  end
-# — id (integer) — the identifier of the user;
-# — permalink (string) — the permalink of the user;
-# — name (string) — the name of the user;
-# — sex (string) — the gender of the user, can be set to one of the following values: male, female, unspecified.
-# — city (string) — the city that the user specified in the profile;
-# — current_channel (JSON) — the channel small JSON relates to the channel that currently chosen by the user;
-# — created_at (UNIX-time) — the time when the user profile was created;
-# — updated_at (UNIX-time) — the time of the user profile's last update;
-# — api_token (string) — the current access token.
+# â€” id (integer) â€” the identifier of the user;
+# â€” permalink (string) â€” the permalink of the user;
+# â€” name (string) â€” the name of the user;
+# â€” sex (string) â€” the gender of the user, can be set to one of the following values: male, female, unspecified.
+# â€” city (string) â€” the city that the user specified in the profile;
+# â€” current_channel (JSON) â€” the channel small JSON relates to the channel that currently chosen by the user;
+# â€” created_at (UNIX-time) â€” the time when the user profile was created;
+# â€” updated_at (UNIX-time) â€” the time of the user profile's last update;
+# â€” api_token (string) â€” the current access token.
 #-----------------------------------------------------------------------
  def get_current_user_channel()
-  inf = get_current_user_info()
-  inf["current_channel"]
+  get_current_user_info()["current_channel"]
  end
 #-----------------------------------------------------------------------
  def get_current_user_channel_id()
-  ch = get_current_user_channel()
-  ch["id"]
+  get_current_user_channel()["id"]
  end
 #-----------------------------------------------------------------------
 def get_current_user_avatar()
-  channel = get_current_user_channel()
-  avt_ver = channel["avatar_versions"]
-  avatar_url = avt_ver["template"]
-  avatar_url.gsub!(/%{version}/, "medium_2x")
+ avatar_url = get_current_user_channel()["avatar_versions"]["template"]
+ avatar_url.gsub!(/%{version}/, AVATAR_SIZE)
+end
+
+#-----------------------------------------------------------------------
+def get_avatar(shortcode)
+ avatar_url = @uapi.get("channels/#{shortcode}")["avatar_versions"]["template"]
+ avatar_url.gsub!(/%{version}/, AVATAR_SIZE)
 end
 #-----------------------------------------------------------------------
  def does_follow?(channel_id)
-   followers = get_followers_list(channel_id)
-   followers.include? get_current_user_channel_id()
+  get_followers_list(channel_id).include? get_current_user_channel_id()
  end
 #-----------------------------------------------------------------------
  def valid?(url)
-   uri = URI.parse(url)
-   uri.kind_of?(URI::HTTP)
-  rescue URI::InvalidURIError
-   false
+  URI.parse(url).kind_of?(URI::HTTP)
+ rescue URI::InvalidURIError
+  false
  end
 #-----------------------------------------------------------------------
 end
+
+#=======================================================================
+
+class String
+ def save_file(filename)
+  open(filename, 'wb') do |f|
+   f << "#{self}"
+  end
+ end
+#-----------------------------------------------------------------------
+ def append_file(filename)
+  open(filename, 'ab') do |f|
+   f << "#{self}"
+  end
+ end
+#-----------------------------------------------------------------------
+end
+#-----------------------------------------------------------------------

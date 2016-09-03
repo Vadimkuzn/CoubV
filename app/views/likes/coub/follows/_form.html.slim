@@ -1,4 +1,3 @@
-/ = form_for(@coub_follow_task, url: likes_coub_follows_path) do |f|
 = form_for(@coub_follow_task, :url => @coub_follow_task.new_record? ? likes_coub_follows_path : likes_coub_follow_path(@coub_follow_task)) do |f|
   .form-group
     = f.label :title, "Название:",:class => 'col-lg-4 control-label'

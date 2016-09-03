@@ -11,6 +11,10 @@ class User < ActiveRecord::Base
    end
   end
 
+  def substract_money(m)
+    User.where(:id => self.id).update_all(['money = money - ?', m.round])
+  end
+
   def client
    @client ||= Faraday.new(:url => "http://coub.com/api/v2/", :params => {:access_token => auth_token})
   end
