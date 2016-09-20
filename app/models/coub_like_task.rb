@@ -5,8 +5,8 @@ class CoubLikeTask < CoubTask
  before_validation :set_shortcode
 
  def set_shortcode
-  self.shortcode = CoubUrlParser.new(self.url).get_shortcode
-  self.item_id = VCoubLib.new(user).get_coub_id(url)
+  self.shortcode = CoubUrlParser.get_shortcode(self.url)
+  self.item_id = VCoubLib.new(user).get_coub_id(self.url)
 #shortcode.append_file('c:\lshortcode.txt')
  end
 end

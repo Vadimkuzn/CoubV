@@ -9,6 +9,8 @@
       td
         = image_tag(@coub_like_task.picture_path, :alt => "Фрейм не найден")
 
+= render :partial => 'shared/flash_success', :locals => {:msg => flash[:success] }
+
 br
 h4
   center
@@ -63,4 +65,4 @@ h4
         td &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         td = link_to 'Удалить', likes_coub_task_path(@coub_like_task), method: :delete, data: { confirm: "Вы уверены?" }
         td &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        td = link_to 'Назад', likes_coub_tasks_path
+        td = link_to 'К списку заданий', likes_coub_tasks_path

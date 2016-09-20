@@ -1,5 +1,5 @@
-class CoubUrlParser < String
- def get_shortcode()
-  self.split("/")[-1]
+class CoubUrlParser
+ def self.get_shortcode(url)
+  url.split("/")[-1]
  end
 end

@@ -2,7 +2,7 @@
 #--------------------------------------------------------------------------
 class Likes::Coub::FollowsController < ApplicationController
   def index
-   # ñïèñîê çàäàíèé äëÿ âûïîëíåíèÿ íà ïîäïèñêè
+# ÑÐ¿Ð¸ÑÐ¾Ðº Ð·Ð°Ð´Ð°Ð½Ð¸Ð¹ Ð´Ð»Ñ Ð²Ñ‹Ð¿Ð¾Ð»Ð½ÐµÐ½Ð¸Ñ Ð½Ð° Ð¿Ð¾Ð´Ð¿Ð¸ÑÐºÐ¸
 #   @coub_follow_tasks = CoubFollowTask.where(paused: false, suspended: false).where.not(user_id: current_user.id).order(cost: :desc).first(20)
 #CHANGE!!!
    @coub_follow_tasks = CoubFollowTask.where(paused: false, suspended: false).order(cost: :desc).first(20)
@@ -25,7 +25,9 @@ class Likes::Coub::FollowsController < ApplicationController
    vclib = VCoubLib.new(current_user)
    @coub_follow_task[:picture_path] = vclib.get_avatar(vclib.get_shortcode(@coub_follow_task[:url]))
     if @coub_follow_task.save
-     redirect_to likes_coub_tasks_path
+     flash[:success] = "Ð—Ð°Ð´Ð°Ð½Ð¸Ðµ ÑƒÑÐ¿ÐµÑˆÐ½Ð¾ ÑÐ¾Ð·Ð´Ð°Ð½Ð¾!"
+     redirect_to likes_coub_follow_path(@coub_follow_task)
+#     redirect_to likes_coub_tasks_path
     else
      render 'new'
     end

@@ -4,7 +4,7 @@ class Likes::Coub::LikesController < ApplicationController
 
 #--------------------------------------------------------------------------
   def index
-   # ñïèñîê çàäàíèé äëÿ âûïîëíåíèÿ íà ëàéêè
+   # ÑÐ¿Ð¸ÑÐ¾Ðº Ð·Ð°Ð´Ð°Ð½Ð¸Ð¹ Ð´Ð»Ñ Ð²Ñ‹Ð¿Ð¾Ð»Ð½ÐµÐ½Ð¸Ñ Ð½Ð° Ð»Ð°Ð¹ÐºÐ¸
 #CHANGE!!!
    @coub_like_tasks = CoubLikeTask.where(paused: false, suspended: false).order(cost: :desc).first(20)
 #   @coub_like_tasks = CoubLikeTask.where(paused: false, suspended: false).where.not(user_id: current_user.id).order(cost: :desc).first(20)
@@ -33,7 +33,9 @@ class Likes::Coub::LikesController < ApplicationController
    @coub_like_task[:picture_path] = template
 
    if @coub_like_task.save
-    redirect_to likes_coub_tasks_path
+    flash[:success] = "Ð—Ð°Ð´Ð°Ð½Ð¸Ðµ ÑƒÑÐ¿ÐµÑˆÐ½Ð¾ ÑÐ¾Ð·Ð´Ð°Ð½Ð¾!"
+#    redirect_to likes_coub_tasks_path
+    redirect_to likes_coub_like_path(@coub_like_task)
    else
     render 'new'
    end
