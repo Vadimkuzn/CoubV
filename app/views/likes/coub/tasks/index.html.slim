@@ -3,12 +3,6 @@
     .panel-heading
       h1 Мои заказы Coub
     .panel-body
-      ul.nav.nav-tabs
-        li= link_to 'Все', '#'
-        li= link_to 'Лайки', '#'
-        li= link_to 'Группы', '#'
-        li= link_to 'Подписчики', '#'
-
       table.table.table-hover.table-condensed
         tr
           th.left-aligned style=("width: 150px;") Название
@@ -29,37 +23,39 @@
               td.left-aligned = task.current_count
 
               - if task.type == "CoubLikeTask"
-                td.left-aligned = link_to " Показать ", likes_coub_like_path(task)
-                td.left-aligned = link_to ' Редактировать ', edit_likes_coub_like_path(task)
+                td.left-aligned = link_to raw('<i class="glyphicon glyphicon-plus"></i>'), edit_likes_coub_like_path(task)
               - else
-                td.left-aligned = link_to " Показать ", likes_coub_follow_path(task)
-                td.left-aligned = link_to ' Редактировать ', edit_likes_coub_follow_path(task)
-              - if task.paused
-                td.left-aligned = link_to " Возобновить ",   likes_coub_task_pause_path(task.id), method: :pause
-              - else
-                td.left-aligned = link_to " Приостановить ", likes_coub_task_pause_path(task.id), method: :pause, data: { confirm: "Вы уверены?" }
+                td.left-aligned = link_to raw('<i class="glyphicon glyphicon-plus"></i>'), edit_likes_coub_follow_path(task)
 
-              td.left-aligned = link_to " Удалить ", likes_coub_task_path(task), method: :delete, data: { confirm: "Вы уверены?" }
+              - if task.paused
+                td.left-aligned = link_to raw('<i class="glyphicon glyphicon-play"></i>'), likes_coub_task_pause_path(task.id), method: :pause
+              - else
+                td.left-aligned = link_to raw('<i class="glyphicon glyphicon-pause"></i>'), likes_coub_task_pause_path(task.id), method: :pause, data: { confirm: "Вы уверены?" }
+
+              td.left-aligned = link_to raw('<i class="glyphicon glyphicon-remove"></i>'), likes_coub_task_path(task), method: :delete, data: { confirm: "Вы уверены?" }
 
 
   br/
-  h2
-    = link_to 'Новое задание на накрутку лайков', new_likes_coub_like_path
-    br/
-    br/
-    = link_to 'Новое задание на накрутку подписчиков', new_likes_coub_follow_path
-    br/
-    br/
-    = link_to 'Удалить все свои задания', delete_all_likes_coub_tasks_path, method: :delete, data: { confirm: "Вы уверены?" }
-    br/
-    br/
-    = link_to 'Выполнить задания на лайки', likes_coub_likes_path
-    br/
-    br/
-    = link_to 'Выполнить задания на подписки', likes_coub_follows_path
-    br/
-    br/
-    = link_to "Выход из Coub и переход на главную страницу Coub Likes", logout_path, method: :delete
+  .centered-text
+    h2
+      center
+        strong
+         = link_to 'Новое задание на накрутку лайков', new_likes_coub_like_path
+         br/
+         br/
+         = link_to 'Новое задание на накрутку подписчиков', new_likes_coub_follow_path
+         br/
+         br/
+         = link_to 'Удалить все свои задания', delete_all_likes_coub_tasks_path, method: :delete, data: { confirm: "Вы уверены?" }
+         br/
+         br/
+         = link_to 'Выполнить задания на лайки', likes_coub_likes_path
+         br/
+         br/
+         = link_to 'Выполнить задания на подписки', likes_coub_follows_path
+         br/
+         br/
+         = link_to "Выход из Coub и переход на главную страницу Coub Likes", logout_path, method: :delete
 
   .centered-text
     center

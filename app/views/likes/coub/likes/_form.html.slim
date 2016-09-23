@@ -1,5 +1,15 @@
 = form_for(@coub_like_task, :url => @coub_like_task.new_record? ? likes_coub_likes_path : likes_coub_like_path(@coub_like_task)) do |f|
 
+  - if @coub_like_task.errors.any?
+    h2
+      = @coub_like_task.errors.count
+      | &nbsp;
+      = Russian.p(@coub_like_task.errors.count, "ошибка помешала", "ошибки помешали", "ошибок помешали")
+      | &nbsp;создать это задание:
+    ul
+      - @coub_like_task.errors.full_messages.each do |msg|
+        li= msg
+
   .form-group
     = f.label :title, "Название:",:class => 'col-lg-4 control-label'
     .col-lg-6
@@ -31,21 +41,9 @@
 
   .actions
     - if @record_exists
-      / = p(@record_exists)
       = f.submit "Отправить задание", :class => 'btn btn-info', :method => 'patch'
     - else
-      / = p(@record_exists)
       = f.submit "Отправить задание", :class => 'btn btn-info', :method => 'post'
-
-- if @coub_like_task.errors.any?
-  h2
-    = @coub_like_task.errors.count
-    | &nbsp;
-    = Russian.p(@coub_like_task.errors.count, "ошибка помешала", "ошибки помешали", "ошибок помешали")
-    | &nbsp;создать это задание:
-  ul
-    - @coub_like_task.errors.full_messages.each do |msg|
-      li= msg
 
 javascript:
   function recountMaxCount() {

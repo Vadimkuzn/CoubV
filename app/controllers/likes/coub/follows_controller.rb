@@ -26,8 +26,8 @@ class Likes::Coub::FollowsController < ApplicationController
    @coub_follow_task[:picture_path] = vclib.get_avatar(vclib.get_shortcode(@coub_follow_task[:url]))
     if @coub_follow_task.save
      flash[:success] = "Задание успешно создано!"
-     redirect_to likes_coub_follow_path(@coub_follow_task)
-#     redirect_to likes_coub_tasks_path
+#     redirect_to likes_coub_follow_path(@coub_follow_task)
+     redirect_to likes_coub_tasks_path
     else
      render 'new'
     end

@@ -34,8 +34,8 @@ class Likes::Coub::LikesController < ApplicationController
 
    if @coub_like_task.save
     flash[:success] = "Задание успешно создано!"
-#    redirect_to likes_coub_tasks_path
-    redirect_to likes_coub_like_path(@coub_like_task)
+    redirect_to likes_coub_tasks_path
+#    redirect_to likes_coub_like_path(@coub_like_task)
    else
     render 'new'
    end

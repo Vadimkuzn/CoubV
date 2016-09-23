@@ -1,4 +1,15 @@
 = form_for([:likes, @coub_task]) do |f|
+
+  - if @coub_task.errors.any?
+    h2
+      = @coub_task.errors.count
+      | &nbsp;
+      = Russian.p(@coub_task.errors.count, "ошибка помешала", "ошибки помешали", "ошибок помешали")
+      | &nbsp;создать это задание:
+    ul
+      - @coub_task.errors.full_messages.each do |msg|
+        li= msg
+
   .form-group
     = f.label :title, "Название:",:class => 'col-lg-4 control-label'
     .col-lg-6
@@ -30,16 +41,6 @@
 
   .actions
     = f.submit "Отправить задание", :class => 'btn btn-info'
-
-- if @coub_task.errors.any?
-  h2
-    = @coub_task.errors.count
-    | &nbsp;
-    = Russian.p(@coub_task.errors.count, "ошибка помешала", "ошибки помешали", "ошибок помешали")
-    | &nbsp;создать это задание:
-  ul
-    - @coub_task.errors.full_messages.each do |msg|
-      li= msg
 
 javascript:
   function recountMaxCount() {

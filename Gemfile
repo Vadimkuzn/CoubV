@@ -11,8 +11,15 @@ gem 'coffee-script-source', '1.8.0'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.5'
 
+gem 'kaminari'
+gem 'kaminari-bootstrap', '~> 3.0.1'
+
+gem "rails-bootstrap-helpers"
+
 gem 'bootstrap-sass', '2.3.2.0'
 gem 'anjlab-bootstrap-rails', :require => 'bootstrap-rails', :github => 'anjlab/bootstrap-rails'
+
+#gem 'font-awesome-rails'
 
 # Use sqlite3 as the database for Active Record
 gem 'sqlite3'

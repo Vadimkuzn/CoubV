@@ -58,15 +58,21 @@ t.datetime  "updated_at",
   def destroy
    @coub_task = CoubTask.find(params[:id])
    @coub_task.deleted = true
+   current_user.money += @coub_task.current_count
+   @coub_task.current_count = 0
    @coub_task.save!
+   current_user.save!
    redirect_to likes_coub_tasks_path
   end
 #--------------------------------------------------------------------------
   def delete_all
    current_user.coub_tasks.each do |t|
     t.deleted = true
+    current_user.money += t.current_count
+    t.current_count = 0
     t.save!
    end
+   current_user.save!
    redirect_to likes_coub_tasks_path
   end
 #--------------------------------------------------------------------------
