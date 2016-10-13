@@ -12,7 +12,11 @@ AVATAR_SIZE = "medium_2x"
  end
 #-----------------------------------------------------------------------
  def channel_id_by_shortcode(shortcode)
-  @uapi.get("channels/#{shortcode}")["id"]
+  @uapi.get("channels/#{shortcode}")["id"].to_i
+ end
+#-----------------------------------------------------------------------
+ def channel_id_by_url(url)
+  @uapi.get("channels/#{get_shortcode(url)}")["id"].to_i
  end
 #-----------------------------------------------------------------------
 #  current_user.name
@@ -168,13 +172,12 @@ def get_current_user_avatar()
  avatar_url.gsub!(/%{version}/, AVATAR_SIZE)
 end
 #-----------------------------------------------------------------------
-def general_search(shortcode)
- @uapi.get('search', q: shortcode)
+def general_search(str)
+ @uapi.get('search', q: str)
 end
 #-----------------------------------------------------------------------
 def get_avatar(url)
- chid = get_channel_id_by_url(url)
- avatar_url = @uapi.get("channels/#{chid}")["avatar_versions"]["template"]
+ avatar_url = @uapi.get("channels/#{channel_id_by_url(url)}")["avatar_versions"]["template"]
  avatar_url.gsub!(/%{version}/, AVATAR_SIZE)
 end
 #-----------------------------------------------------------------------
@@ -195,23 +198,19 @@ end
 #-----------------------------------------------------------------------
 def get_channel_id_by_url(url)
  hasharr = get_JSON_hasharr_by_url(url)
- result = nil
  hasharr.each do |shash|
-  result = shash["channel_id"]
-  if result
-   return result.to_i
+  lresult = shash["channel_id"]
+  if lresult
+   return lresult.to_i
   end
  end
- result
+ nil
 end
 #-----------------------------------------------------------------------
 def get_JSON_hasharr_by_url(url)
  hasharr = []
- response = RestClient.get(url).body
- result = response.scan(/<script type='text\/json'>.*?(\{.*?)<\/script>/m)
- result.each do |elm|
-  hasharr << JSON.parse(elm[0].strip)
- end
+ result = RestClient.get(url).body.scan(/<script type='text\/json'>.*?(\{.*?)<\/script>/m)
+ result.each {|elm| hasharr << JSON.parse(elm[0].strip)}
  hasharr
 end
 #-----------------------------------------------------------------------
