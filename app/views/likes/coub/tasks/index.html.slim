@@ -3,6 +3,7 @@
     .panel-heading
       h1 Мои заказы Coub
     .panel-body
+      = render :partial => 'shared/flash_success', :locals => {:msg => flash[:success] }
       table.table.table-hover.table-condensed
         tr
           th.left-aligned style=("width: 150px;") Название

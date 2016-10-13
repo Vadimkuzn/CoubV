@@ -1,4 +1,4 @@
-#require 'v_coub_lib'
+require 'v_coub_lib'
 
 class Likes::Coub::LikesController < ApplicationController
 

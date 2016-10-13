@@ -1,4 +1,5 @@
 require 'uri'
+require 'rest-client'
 
 class VCoubLib
 #-----------------------------------------------------------------------
@@ -166,22 +167,53 @@ def get_current_user_avatar()
  avatar_url = get_current_user_channel()["avatar_versions"]["template"]
  avatar_url.gsub!(/%{version}/, AVATAR_SIZE)
 end
-
 #-----------------------------------------------------------------------
-def get_avatar(shortcode)
- avatar_url = @uapi.get("channels/#{shortcode}")["avatar_versions"]["template"]
+def general_search(shortcode)
+ @uapi.get('search', q: shortcode)
+end
+#-----------------------------------------------------------------------
+def get_avatar(url)
+ chid = get_channel_id_by_url(url)
+ avatar_url = @uapi.get("channels/#{chid}")["avatar_versions"]["template"]
  avatar_url.gsub!(/%{version}/, AVATAR_SIZE)
 end
 #-----------------------------------------------------------------------
- def does_follow?(channel_id)
-  get_followers_list(channel_id).include? get_current_user_channel_id()
- end
+def does_follow?(channel_id)
+ get_followers_list(channel_id).include? get_current_user_channel_id()
+end
 #-----------------------------------------------------------------------
- def valid?(url)
-  URI.parse(url).kind_of?(URI::HTTP)
- rescue URI::InvalidURIError
-  false
+def valid?(url)
+ URI.parse(url).kind_of?(URI::HTTP)
+rescue URI::InvalidURIError
+ false
+end
+#-----------------------------------------------------------------------
+def get_url_source(url)
+ response = RestClient.get(url)
+# response.body
+end
+#-----------------------------------------------------------------------
+def get_channel_id_by_url(url)
+ hasharr = get_JSON_hasharr_by_url(url)
+ result = nil
+ hasharr.each do |shash|
+  result = shash["channel_id"]
+  if result
+   return result.to_i
+  end
  end
+ result
+end
+#-----------------------------------------------------------------------
+def get_JSON_hasharr_by_url(url)
+ hasharr = []
+ response = RestClient.get(url).body
+ result = response.scan(/<script type='text\/json'>.*?(\{.*?)<\/script>/m)
+ result.each do |elm|
+  hasharr << JSON.parse(elm[0].strip)
+ end
+ hasharr
+end
 #-----------------------------------------------------------------------
 end
 

@@ -1,4 +1,4 @@
-#require 'v_coub_lib'
+require 'v_coub_lib'
 #--------------------------------------------------------------------------
 class Likes::Coub::FollowsController < ApplicationController
   def index
@@ -23,14 +23,33 @@ class Likes::Coub::FollowsController < ApplicationController
   def create
    @coub_follow_task = current_user.coub_follow_tasks.build(task_params)
    vclib = VCoubLib.new(current_user)
-   @coub_follow_task[:picture_path] = vclib.get_avatar(vclib.get_shortcode(@coub_follow_task[:url]))
-    if @coub_follow_task.save
-     flash[:success] = "Задание успешно создано!"
+
+=begin
+   response = RestClient.get(@coub_follow_task[:url]).body
+   result = response.scan(/<script type='text\/json'>.*?(\{.*?)<\/script>/m)
+   shash = JSON.parse(result[0][0].strip)
+   render plain: shash.inspect
+=end
+
+=begin
+   hasharr = []
+   response = RestClient.get(@coub_follow_task[:url]).body
+   result = response.scan(/<script type='text\/json'>.*?(\{.*?)<\/script>/m)
+   result.each do |elm|
+    hasharr << JSON.parse(elm[0].strip)
+   end
+   render plain: hasharr.inspect
+=end
+
+   @coub_follow_task[:picture_path] = vclib.get_avatar(@coub_follow_task[:url])
+   if @coub_follow_task.save
+    flash[:success] = "Задание успешно создано!"
 #     redirect_to likes_coub_follow_path(@coub_follow_task)
-     redirect_to likes_coub_tasks_path
-    else
-     render 'new'
-    end
+    redirect_to likes_coub_tasks_path
+   else
+    render 'new'
+   end
+
   end
 #--------------------------------------------------------------------------
   def update

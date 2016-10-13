@@ -1,4 +1,4 @@
-source 'https://rubygems.org'
+source 'http://rubygems.org'
 
 ruby '2.2.3'
 #ruby-gemset=railstutorial_rails_4_0
@@ -18,7 +18,6 @@ gem "rails-bootstrap-helpers"
 
 gem 'bootstrap-sass', '2.3.2.0'
 gem 'anjlab-bootstrap-rails', :require => 'bootstrap-rails', :github => 'anjlab/bootstrap-rails'
-
 #gem 'font-awesome-rails'
 
 # Use sqlite3 as the database for Active Record
@@ -50,6 +49,8 @@ gem "faraday"
 gem 'russian', '~> 0.6.0'
 
 gem 'coub_api'
+
+gem 'rest-client'
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'

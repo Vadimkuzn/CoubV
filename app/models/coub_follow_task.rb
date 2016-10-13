@@ -7,6 +7,6 @@ class CoubFollowTask < CoubTask
  def set_shortcode
   self.shortcode = CoubUrlParser.get_shortcode(self.url)
   self.item_id = VCoubLib.new(user).channel_id_by_shortcode(shortcode)
-#shortcode.append_file('c:\fshortcode.txt')
+#  shortcode.append_file('c:\fshortcode.txt')
  end
 end
