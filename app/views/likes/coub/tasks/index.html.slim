@@ -16,28 +16,28 @@
           th.left-aligned
 
           - @coub_tasks.each do |task|
-            tr id = "task-#{task.id}"
-              td.left-aligned = link_to truncate(task.title, :length => 50), NoRef.hide(task.url), :target => "_blank", :rel => "noreferrer"
-              - if task.type == "CoubLikeTask"
-                td.left-aligned = "Лайк"
-              - else
-                td.left-aligned = "Подписка"
-              td.left-aligned = task.cost
-              td.left-aligned = task.max_count
-              td.left-aligned = task.current_count
+            - if task[:finished] == false
+              tr id = "task-#{task.id}"
+                td.left-aligned = link_to truncate(task.title, :length => 50), NoRef.hide(task.url), :target => "_blank", :rel => "noreferrer"
+                - if task.type == "CoubLikeTask"
+                  td.left-aligned = "Лайк"
+                - else
+                  td.left-aligned = "Подписка"
+                td.left-aligned = task.cost
+                td.left-aligned = task.max_count
+                td.left-aligned = task.current_count
 
-              - if task.type == "CoubLikeTask"
-                td.left-aligned = link_to raw('<i class="glyphicon glyphicon-pencil"></i>'), edit_likes_coub_like_path(task), style: 'color:#17B01F;'
-              - else
-                td.left-aligned = link_to raw('<i class="glyphicon glyphicon-pencil"></i>'), edit_likes_coub_follow_path(task), style: 'color:#17B01F;'
+                - if task.type == "CoubLikeTask"
+                  td.left-aligned = link_to raw('<i class="glyphicon glyphicon-pencil"></i>'), edit_likes_coub_like_path(task), style: 'color:#17B01F;'
+                - else
+                  td.left-aligned = link_to raw('<i class="glyphicon glyphicon-pencil"></i>'), edit_likes_coub_follow_path(task), style: 'color:#17B01F;'
 
-              - if task.paused
-                td.left-aligned = link_to raw('<i class="glyphicon glyphicon-play"></i>'), likes_coub_task_pause_path(task.id), style: 'color:#193FE6;', method: :pause
-              - else
-                td.left-aligned = link_to raw('<i class="glyphicon glyphicon-pause"></i>'), likes_coub_task_pause_path(task.id), style: 'color:#E67F19;', method: :pause, data: { confirm: "Вы уверены?" }
+                - if task.paused
+                  td.left-aligned = link_to raw('<i class="glyphicon glyphicon-play"></i>'), likes_coub_task_pause_path(task.id), style: 'color:#193FE6;', method: :pause
+                - else
+                  td.left-aligned = link_to raw('<i class="glyphicon glyphicon-pause"></i>'), likes_coub_task_pause_path(task.id), style: 'color:#E67F19;', method: :pause, data: { confirm: "Вы уверены?" }
 
-              td.left-aligned = link_to raw('<i class="glyphicon glyphicon-remove"></i>'), likes_coub_task_path(task), style: 'color:#EB0E45;', method: :delete, data: { confirm: "Вы уверены?" }
-
+                td.left-aligned = link_to raw('<i class="glyphicon glyphicon-remove"></i>'), likes_coub_task_path(task), style: 'color:#EB0E45;', method: :delete, data: { confirm: "Вы уверены?" }
 
   br/
   .centered-text

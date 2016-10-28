@@ -1,4 +1,4 @@
-#require 'v_coub_lib'
+require 'v_coub_lib'
 
 class Likes::Coub::TasksController < ApplicationController
 #--------------------------------------------------------------------------
@@ -84,37 +84,43 @@ t.datetime  "updated_at",
   end
 #--------------------------------------------------------------------------
   def open
-#    @task = CoubTask.not_suspended.not_paused.not_finished.find(params[:id])
-    @task = CoubTask.find(params[:task_id])
-
-    if @task
-      CoubTasksUser.create(:coub_task => @task, :user => current_user)
-      redirect_to @task.redirect_url
+    @coub_task = CoubTask.not_suspended.not_paused.not_finished.find(params[:task_id])
+#    @coub_task = CoubTask.find(params[:task_id])
+    if @coub_task
+      CoubTasksUser.create(:coub_task => @coub_task, :user => current_user)
+      redirect_to @coub_task.redirect_url
     end
   end
 #--------------------------------------------------------------------------
   def check
-    @task = CoubTask.find(params[:id])
-    @completed = @task.task_completed?(current_user)
+    @coub_task = CoubTask.find(params[:task_id])
+    vclib = VCoubLib.new(current_user)
+    @completed = vclib.task_completed?(@coub_task)
 
     if @completed
-      CoubTask.transaction do
-        current_user.lock!
-        @task.add_money_to_user(current_user)
-      end
+     @coub_task[:finished] = true
+     @coub_task.save!
+#"VCompleted? Here I am #{@completed} #{@coub_task[:url]}\r\n".append_file("c:\\check.txt")
+#"@coub_task finished? #{@coub_task[:finished].to_s}\r\n".append_file("c:\\check.txt")
+     CoubTask.transaction do
+      current_user.lock!
+      @coub_task.add_money_to_user(current_user)
+     end
+     current_user.save!
     else
-      @task.decrease_limit_counter
+     @coub_task.decrease_limit_counter
+     @coub_task.save!
     end
-  rescue IncorrectTokenException
-    @incorrect_token = true
-  rescue => ex
-    if ex.message == "Sorry, this coub has been deleted."
+
+    rescue => ex
+     if ex.message == "Sorry, this coub has been deleted."
       task = CoubTask.find(params[:id])
       task.suspend!
+      task.save!
       @completed = false
-    end
-  end
+     end
 
+  end
 #--------------------------------------------------------------------------
 private
   def task_params

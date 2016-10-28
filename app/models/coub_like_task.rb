@@ -1,4 +1,12 @@
 class CoubLikeTask < CoubTask
+ include Pausable
+ include Destroyable
+ include Lockable
+ include Limitable
+ include CommonTask
+
+ TASK_LOCK_TIME = 25
+
  URL_FORMAT = /https?:\/\/coub.com\/view\/([\w\.]+)/i
  validates_format_of :url, :with => URL_FORMAT
 

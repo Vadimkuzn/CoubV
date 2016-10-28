@@ -1,6 +1,6 @@
 require 'uri'
 require 'rest-client'
-
+#=======================================================================
 class VCoubLib
 #-----------------------------------------------------------------------
 AVATAR_SIZE = "medium_2x"
@@ -12,11 +12,11 @@ AVATAR_SIZE = "medium_2x"
  end
 #-----------------------------------------------------------------------
  def channel_id_by_shortcode(shortcode)
-  @uapi.get("channels/#{shortcode}")["id"].to_i
+  @uapi.get("channels/#{shortcode}")["id"]
  end
 #-----------------------------------------------------------------------
  def channel_id_by_url(url)
-  @uapi.get("channels/#{get_shortcode(url)}")["id"].to_i
+  @uapi.get("channels/#{get_shortcode(url)}")["id"]
  end
 #-----------------------------------------------------------------------
 #  current_user.name
@@ -28,32 +28,44 @@ AVATAR_SIZE = "medium_2x"
 #  current_user.updated_at
 
 #-----------------------------------------------------------------------
-  def get_current_user_api()
-   CoubApi::Client.new(@user.auth_token)
-  end
+ def get_current_user_api()
+  CoubApi::Client.new(@user.auth_token)
+ end
 #-----------------------------------------------------------------------
-  def get_shortcode(url)
-   (url.split("/")[-1]).to_s
-  end
+ def get_shortcode(url)
+  (url.split("/")[-1]).to_s
+ end
 #-----------------------------------------------------------------------
-  def get_coub(url)
-   @uapi.get("coubs/#{get_shortcode(url)}")
-  end
+ def get_coub(url)
+  @uapi.get("coubs/#{get_shortcode(url)}")
+ end
 #-----------------------------------------------------------------------
-  def get_coub_id(url)
-   get_coub(url)['id']
-  end
+ def get_coub_id(url)
+  get_coub(url)['id']
+ end
 #-----------------------------------------------------------------------
-
-# Usecase:
-# user = User.first
-# lib = VCoubLib.new(user)
-# t = CoubTask.find 53
-# lib.does_like?(t.item_id)
-
-  def does_like?(coub_id)
-   get_likers_list_by_id(coub_id).include?(get_current_user_channel_id())
-  end
+ def has_like?(coub_id)
+   cuid = get_current_user_channel_id()
+   likerslist = get_likers_list_by_id(coub_id)
+   likerslist.each do |elm|
+    if elm[2] == cuid
+     return true
+    end
+   end
+   false
+ end
+#-----------------------------------------------------------------------
+ def has_like_url?(url)
+   cuid = get_current_user_channel_id()
+   likerslist = get_likers_list(url)
+   likerslist.each do |elm|
+    if elm[2] == cuid
+     return true
+    end
+   end
+   false
+ end
+#-----------------------------------------------------------------------
 
 # ar:
 # — page (integer) — the number of the required page;
@@ -84,27 +96,27 @@ AVATAR_SIZE = "medium_2x"
 # — ios_small — 70x70 pixels.
 
 #-----------------------------------------------------------------------
-  def get_likers_list(url)
-   get_likers_list_by_id(get_coub_id(url))
-  end
+ def get_likers_list(url)
+  get_likers_list_by_id(get_coub_id(url))
+ end
 #-----------------------------------------------------------------------
-  def get_likers_list_by_id(coub_id)
-   begin
-    ar  = @uapi.get('action_subjects_data/coub_likes_list', id: coub_id, page: 1)
-    rescue
-     nil
-     return
-   end
-   arch = ar['channels']
-   churls = []
-   arch.each do |ch|
-    churl = []
-    churl  << ch["title"]
-    churl  << "http://coub.com/#{ch['permalink']}"
-    churl  << ch["id"]
-    churls << churl
-   end
-   churls
+ def get_likers_list_by_id(coub_id)
+  begin
+   ar  = @uapi.get('action_subjects_data/coub_likes_list', id: coub_id, page: 1)
+   rescue
+    nil
+    return
+  end
+  arch = ar['channels']
+  churls = []
+  arch.each do |ch|
+   churl = []
+   churl  << ch["title"]
+   churl  << "http://coub.com/#{ch['permalink']}"
+   churl  << ch["id"]
+   churls << churl
+  end
+  churls
  end
 
 # ar:
@@ -136,6 +148,16 @@ AVATAR_SIZE = "medium_2x"
 # — ios_small — 70x70 pixels.
 
 #-----------------------------------------------------------------------
+ def get_following_list(channel_id)
+  begin
+   ar  = @uapi.get('action_subjects_data/followings_list', id: channel_id, page: 1)
+  rescue
+   nil
+   return
+  end
+  ar['channels'].collect { |ch| ch['id'] }
+ end
+#-----------------------------------------------------------------------
  def get_followers_list(channel_id)
   begin
    ar  = @uapi.get('action_subjects_data/followers_list', id: channel_id, page: 1)
@@ -143,7 +165,7 @@ AVATAR_SIZE = "medium_2x"
    nil
    return
   end
-  ar['channels'].collect { |ch| ch["id"] }
+  ar['channels'].collect { |ch| ch['id'] }
  end
 #-----------------------------------------------------------------------
  def get_current_user_info()
@@ -167,52 +189,70 @@ AVATAR_SIZE = "medium_2x"
   get_current_user_channel()["id"]
  end
 #-----------------------------------------------------------------------
-def get_current_user_avatar()
- avatar_url = get_current_user_channel()["avatar_versions"]["template"]
- avatar_url.gsub!(/%{version}/, AVATAR_SIZE)
-end
-#-----------------------------------------------------------------------
-def general_search(str)
- @uapi.get('search', q: str)
-end
-#-----------------------------------------------------------------------
-def get_avatar(url)
- avatar_url = @uapi.get("channels/#{channel_id_by_url(url)}")["avatar_versions"]["template"]
- avatar_url.gsub!(/%{version}/, AVATAR_SIZE)
-end
-#-----------------------------------------------------------------------
-def does_follow?(channel_id)
- get_followers_list(channel_id).include? get_current_user_channel_id()
-end
-#-----------------------------------------------------------------------
-def valid?(url)
- URI.parse(url).kind_of?(URI::HTTP)
-rescue URI::InvalidURIError
- false
-end
-#-----------------------------------------------------------------------
-def get_url_source(url)
- response = RestClient.get(url)
-# response.body
-end
-#-----------------------------------------------------------------------
-def get_channel_id_by_url(url)
- hasharr = get_JSON_hasharr_by_url(url)
- hasharr.each do |shash|
-  lresult = shash["channel_id"]
-  if lresult
-   return lresult.to_i
-  end
+ def get_current_user_id()
+  get_current_user_info()["id"]
  end
- nil
-end
 #-----------------------------------------------------------------------
-def get_JSON_hasharr_by_url(url)
- hasharr = []
- result = RestClient.get(url).body.scan(/<script type='text\/json'>.*?(\{.*?)<\/script>/m)
- result.each {|elm| hasharr << JSON.parse(elm[0].strip)}
- hasharr
-end
+ def get_current_user_avatar()
+  avatar_url = get_current_user_channel()["avatar_versions"]["template"]
+  avatar_url.gsub!(/%{version}/, AVATAR_SIZE)
+ end
+#-----------------------------------------------------------------------
+ def general_search(str)
+  @uapi.get('search', q: str)
+ end
+#-----------------------------------------------------------------------
+ def get_avatar(url)
+  avatar_url = @uapi.get("channels/#{channel_id_by_url(url).to_i}")["avatar_versions"]["template"]
+  avatar_url.gsub!(/%{version}/, AVATAR_SIZE)
+ end
+#-----------------------------------------------------------------------
+ def does_follow?(channel_id)
+  get_followers_list(channel_id).include? get_current_user_channel_id()
+ end
+#-----------------------------------------------------------------------
+ def has_follow_url?(url)
+  get_following_list(get_current_user_channel_id()).include? channel_id_by_url(url)
+ end
+#-----------------------------------------------------------------------
+ def valid?(url)
+  URI.parse(url).kind_of?(URI::HTTP)
+ rescue URI::InvalidURIError
+  false
+ end
+#-----------------------------------------------------------------------
+ def get_url_source(url)
+  response = RestClient.get(url)
+# response.body
+ end
+#-----------------------------------------------------------------------
+ def get_channel_id_by_url(url)
+  hasharr = get_JSON_hasharr_by_url(url)
+  hasharr.each do |shash|
+   lresult = shash["channel_id"]
+   if lresult
+    return lresult.to_i
+   end
+  end
+  nil
+ end
+#-----------------------------------------------------------------------
+ def get_JSON_hasharr_by_url(url)
+  hasharr = []
+  result = RestClient.get(url).body.scan(/<script type='text\/json'>.*?(\{.*?)<\/script>/m)
+  result.each {|elm| hasharr << JSON.parse(elm[0].strip)}
+  hasharr
+ end
+#-----------------------------------------------------------------------
+ def task_completed?(task)
+  completed = false
+  if task.type == "CoubLikeTask"
+   completed = has_like_url?(task[:url])
+  else
+   completed = has_follow_url?(task[:url])
+  end
+  completed
+ end
 #-----------------------------------------------------------------------
 end
 

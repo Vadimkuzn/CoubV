@@ -6,8 +6,8 @@ class Likes::Coub::LikesController < ApplicationController
   def index
    # список заданий для выполнения на лайки
 #CHANGE!!!
-   @coub_like_tasks = CoubLikeTask.where(paused: false, suspended: false).order(cost: :desc).first(20)
-#   @coub_like_tasks = CoubLikeTask.where(paused: false, suspended: false).where.not(user_id: current_user.id).order(cost: :desc).first(20)
+   @coub_like_tasks = CoubLikeTask.where(paused: false, suspended: false, finished: false).order(cost: :desc).first(20)
+#   @coub_like_tasks = CoubLikeTask.where(paused: false, suspended: false, finished: false).where.not(user_id: current_user.id).order(cost: :desc).first(20)
   end
 #--------------------------------------------------------------------------
   def new

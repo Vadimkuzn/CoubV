@@ -1,6 +1,11 @@
 class CoubTask < ActiveRecord::Base
+ include Pausable
+ include Destroyable
+ include Lockable
+ include Limitable
  include CommonTask
-# include Limitable
+
+ TASK_LOCK_TIME = 25
 
  belongs_to :user
 

@@ -3,9 +3,9 @@ require 'v_coub_lib'
 class Likes::Coub::FollowsController < ApplicationController
   def index
 # список заданий для выполнения на подписки
-#   @coub_follow_tasks = CoubFollowTask.where(paused: false, suspended: false).where.not(user_id: current_user.id).order(cost: :desc).first(20)
+#   @coub_follow_tasks = CoubFollowTask.where(paused: false, suspended: false, finished: false).where.not(user_id: current_user.id).order(cost: :desc).first(20)
 #CHANGE!!!
-   @coub_follow_tasks = CoubFollowTask.where(paused: false, suspended: false).order(cost: :desc).first(20)
+   @coub_follow_tasks = CoubFollowTask.where(paused: false, suspended: false, finished: false).order(cost: :desc).first(20)
   end
 #--------------------------------------------------------------------------
   def new
@@ -23,24 +23,6 @@ class Likes::Coub::FollowsController < ApplicationController
   def create
    @coub_follow_task = current_user.coub_follow_tasks.build(task_params)
    vclib = VCoubLib.new(current_user)
-
-=begin
-   response = RestClient.get(@coub_follow_task[:url]).body
-   result = response.scan(/<script type='text\/json'>.*?(\{.*?)<\/script>/m)
-   shash = JSON.parse(result[0][0].strip)
-   render plain: shash.inspect
-=end
-
-=begin
-   hasharr = []
-   response = RestClient.get(@coub_follow_task[:url]).body
-   result = response.scan(/<script type='text\/json'>.*?(\{.*?)<\/script>/m)
-   result.each do |elm|
-    hasharr << JSON.parse(elm[0].strip)
-   end
-   render plain: hasharr.inspect
-=end
-
    @coub_follow_task[:picture_path] = vclib.get_avatar(@coub_follow_task[:url])
    if @coub_follow_task.save
     flash[:success] = "Задание успешно создано!"
@@ -49,7 +31,6 @@ class Likes::Coub::FollowsController < ApplicationController
    else
     render 'new'
    end
-
   end
 #--------------------------------------------------------------------------
   def update
@@ -61,7 +42,6 @@ class Likes::Coub::FollowsController < ApplicationController
    end
   end
 #--------------------------------------------------------------------------
-
   private
   def task_params
    params.require(:coub_follow_task).permit(:user_id, :title, :type, :url, :cost, :item_id, :shortcode, :deleted, :paused, :suspended, :verified, :current_count, :max_count, :members_count, :picture_path, :finished)

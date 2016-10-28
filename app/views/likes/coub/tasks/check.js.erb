@@ -1,0 +1,11 @@
+<% if @completed%>
+  <% if @coub_task.verified? %>
+    $('#user_reals').html('<%= current_user.reals %>');
+    <%= add_gritter("#{Russian.p(@coub_task.user_bonus, "Начислен", "Начислено", "Начислено")} #{@coub_task.user_bonus} #{Russian.p(@coub_task.user_bonus, "реал", "реала", "реалов")}", :title => "Уведомление", :time => 2000, :image => :success, :nodom_wrap => true) %>
+  <% else%>
+    $('#user_money').html('<%= current_user.money %>');
+    <%= add_gritter("#{Russian.p(@coub_task.user_bonus, "Начислен", "Начислено", "Начислено")} #{@coub_task.user_bonus} #{Russian.p(@coub_task.user_bonus, "лайк", "лайка", "лайков")}", :title => "Уведомление", :time => 2000, :image => :success, :nodom_wrap => true) %>
+  <% end%>
+<% else %>
+  <%= add_gritter('Задание не было выполнено', :title => "Ошибка", :image => :error, :time => 2000, :nodom_wrap => true) %>
+<% end %>
