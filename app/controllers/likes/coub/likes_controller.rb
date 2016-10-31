@@ -23,8 +23,20 @@ class Likes::Coub::LikesController < ApplicationController
   end
 #--------------------------------------------------------------------------
   def create
-   @coub_like_task = current_user.coub_like_tasks.build(task_params)
    vclib = VCoubLib.new(current_user)
+   @coub_like_task = current_user.coub_like_tasks.build(task_params)
+   etask = CoubTask.get_existing(vclib.get_coub_id(@coub_like_task.url), @coub_like_task.user_id, @coub_like_task.type, false, false)
+
+   if etask
+    @coub_like_task = etask
+    if @coub_like_task.update(task_params)
+     redirect_to likes_coub_tasks_path
+    else
+     render 'edit'
+    end
+    return
+   end
+
    coubjson = vclib.get_coub(@coub_like_task[:url])
    web = coubjson["first_frame_versions"]
    template = web["template"]
@@ -39,8 +51,8 @@ class Likes::Coub::LikesController < ApplicationController
    else
     render 'new'
    end
-
   end
+
 #--------------------------------------------------------------------------
   def update
    @coub_like_task = CoubLikeTask.find(params[:id])

@@ -21,8 +21,23 @@ class Likes::Coub::FollowsController < ApplicationController
   end
 #--------------------------------------------------------------------------
   def create
-   @coub_follow_task = current_user.coub_follow_tasks.build(task_params)
+
    vclib = VCoubLib.new(current_user)
+
+   @coub_follow_task = current_user.coub_follow_tasks.build(task_params)
+
+   etask = CoubTask.get_existing(vclib.channel_id_by_url(@coub_follow_task.url), @coub_follow_task.user_id, @coub_follow_task.type, false, false)
+
+   if etask
+    @coub_follow_task = etask
+    if @coub_follow_task.update(task_params)
+     redirect_to likes_coub_tasks_path
+    else
+     render 'edit'
+    end
+    return
+   end
+
    @coub_follow_task[:picture_path] = vclib.get_avatar(@coub_follow_task[:url])
    if @coub_follow_task.save
     flash[:success] = "Задание успешно создано!"
@@ -31,6 +46,7 @@ class Likes::Coub::FollowsController < ApplicationController
    else
     render 'new'
    end
+
   end
 #--------------------------------------------------------------------------
   def update

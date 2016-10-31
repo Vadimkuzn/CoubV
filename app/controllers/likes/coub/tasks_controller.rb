@@ -98,10 +98,15 @@ t.datetime  "updated_at",
     @completed = vclib.task_completed?(@coub_task)
 
     if @completed
-     @coub_task[:finished] = true
-     @coub_task.save!
 #"VCompleted? Here I am #{@completed} #{@coub_task[:url]}\r\n".append_file("c:\\check.txt")
 #"@coub_task finished? #{@coub_task[:finished].to_s}\r\n".append_file("c:\\check.txt")
+    	begin
+      @coub_task = CoubTask.find(params[:task_id])
+      CoubTasksUser.create!(:user => current_user, :coub_task => @coub_task)
+     rescue => ex
+      logger.error "Exception in check coub task: #{ex.inspect}"
+     end
+
      CoubTask.transaction do
       current_user.lock!
       @coub_task.add_money_to_user(current_user)

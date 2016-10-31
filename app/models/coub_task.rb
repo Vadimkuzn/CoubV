@@ -26,6 +26,10 @@ class CoubTask < ActiveRecord::Base
   self.cost ||= 1
  end
 
+ def self.get_existing(item_id, user_id, type, verified, deleted)
+  CoubTask.unscoped.where(item_id: item_id, user_id: user_id, type: type.to_s, verified: verified, deleted: deleted).first
+ end
+
  validates :title, presence: true, length: { maximum: 255 }
 # validates :title, uniqueness: { case_sensitive: false }
  validates :members_count,  presence: true, numericality: { greater_than_or_equal_to: 10 }
