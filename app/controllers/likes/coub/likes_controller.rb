@@ -33,7 +33,7 @@ class Likes::Coub::LikesController < ApplicationController
      flash[:success] = "Задание успешно обновлено!"
      redirect_to likes_coub_tasks_path
     else
-     render 'edit'
+     render 'new'
     end
     return
    end
