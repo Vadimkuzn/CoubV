@@ -30,6 +30,7 @@ class Likes::Coub::LikesController < ApplicationController
    if etask
     @coub_like_task = etask
     if @coub_like_task.update(task_params)
+     flash[:success] = "Задание успешно обновлено!"
      redirect_to likes_coub_tasks_path
     else
      render 'edit'
