@@ -49,9 +49,11 @@ ActiveRecord::Schema.define(version: 20160804130316) do
     t.string   "uid"
     t.string   "auth_token"
     t.string   "name"
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
-    t.integer  "money",      default: 0, null: false
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
+    t.integer  "money",         default: 0, null: false
+    t.string   "premium_type"
+    t.datetime "premium_until"
   end
 
 end

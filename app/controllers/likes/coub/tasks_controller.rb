@@ -57,12 +57,38 @@ t.datetime  "updated_at",
 #--------------------------------------------------------------------------
   def destroy
    @coub_task = CoubTask.find(params[:id])
-   @coub_task.deleted = true
-   current_user.money += @coub_task.current_count
-   @coub_task.current_count = 0
-   @coub_task.save!
-   current_user.save!
-   redirect_to likes_coub_tasks_path
+#   @coub_task.deleted = true
+#   current_user.money += @coub_task.current_count
+#   @coub_task.current_count = 0
+#   @coub_task.save!
+#   current_user.save!
+#   redirect_to likes_coub_tasks_path
+
+    begin
+      task = Tasks::Destroyer.destroy(params[:id], current_user.id, CoubTask)
+      current_user.reload
+
+      respond_to do |format|
+        format.html do
+#          if task.verified?
+#            redirect_to real_coub_tasks_path
+#          else
+#            redirect_to likes_coub_tasks_path
+#          end
+          redirect_to likes_coub_tasks_path
+        end
+        format.js
+#        format.json { render json: {deleted: true, money: current_user.money, reals: current_user.reals } }
+        format.json { render json: {deleted: true, money: current_user.money } }
+      end
+=begin
+    rescue RecordNotFound
+      flash[:error] = 'Task not found'
+#      redirect_to dashboard_path
+      redirect_to likes_coub_tasks_path
+=end
+    end
+
   end
 #--------------------------------------------------------------------------
   def delete_all

@@ -11,6 +11,9 @@ gem 'coffee-script-source', '1.8.0'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.5'
 
+gem 'acts-as-taggable-on', '~> 3.4'
+gem 'shortener'
+
 gem 'kaminari'
 gem 'kaminari-bootstrap', '~> 3.0.1'
 
@@ -27,6 +30,9 @@ group :development, :test do
 #  gem 'sqlite3'
   gem 'rspec-rails', '2.13.1'
 end
+
+gem 'redis'
+gem 'redis-objects'
 
 gem 'slim-rails'
 
